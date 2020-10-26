@@ -1,0 +1,190 @@
+﻿<Window xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        x:Class="PinnaFit.WPF.Views.OnHandInventories"
+        DataContext="{Binding OnHandInventory, Source={StaticResource Locator}}"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        mc:Ignorable="d" WindowState="Normal"
+        Title="አሁን ያለው እቃ ዝርዝር " Height="640" Width="840" x:Name="WdwOnhandInventory"
+        AllowDrop="True" Background="Transparent" AllowsTransparency="False" WindowStyle="ThreeDBorderWindow"
+        WindowStartupLocation="CenterScreen"
+        Icon="/PinnaFit.WPF;component/Resources/AppIcon.ico">
+
+    <!--Unloaded="OnHandInventories_OnUnloaded"-->
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/MainSkin.xaml" />
+                <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/ControlsDictionary.xaml" />
+                <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/ListViewDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Border Style="{StaticResource mainBorder}" CornerRadius="0">
+            <Grid TextBlock.Foreground="White" TextBlock.FontSize="13" TextBlock.FontFamily="Bookman Old Style">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="2" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                
+                <Grid Grid.Row="0" Margin="5">
+                   
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!--<TextBlock Grid.Row="0" Grid.Column="0" Text="Store/Shop:"
+                                   Style="{StaticResource textBlockStyle1}" />-->
+                        <ComboBox Grid.Row="0" Grid.Column="1"
+                                  Text="For Store:"
+                                  x:Name="CmbCurrentWarehouse"
+                                  ItemsSource="{Binding Warehouses, Mode= OneWay}"
+                                  SelectedItem="{Binding SelectedWarehouse}"
+                                  DisplayMemberPath="DisplayName"
+                                  Style="{StaticResource comboBoxStyle1}" />
+                      
+                    
+                    <DockPanel Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Margin="0,0,10,0">
+                        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <!--<Button Margin="0,0,5,0"
+                                IsEnabled="True"
+                                Content=" አሳይ "
+                                Command="{Binding RefreshWindowCommand}"
+                                Width="120" />
+                            
+                            <Button Content=" Add _New Item " Tag="AddNew" x:Name="BtnAddNew"
+                                    Margin="5,0,0,0" Visibility="Visible"
+                                    CommandParameter="{Binding ElementName=BtnAddNew}" Width="120"
+                                    Command="{Binding ItemViewCommand}" />-->
+                            <!--<Button Content=" _Edit Item " Tag="ViewEdit" x:Name="BtnViewEdit" Width="120"
+                                    Margin="5,0,0,0"
+                                    Command="{Binding ItemViewCommand}" Visibility="Visible"
+                                    CommandParameter="{Binding ElementName=BtnViewEdit}" />
+                            <Button Content=" _Sales History " Tag="SalesList" x:Name="BtnSalesList" 
+                                    Visibility="{Binding UserRoles.ItemSales}" Width="120"
+                                    Margin="5,0,0,0" IsEnabled="{Binding ItemDetailEnability}"
+                                    CommandParameter="{Binding ElementName=BtnSalesList}"
+                                    Command="{Binding ItemViewCommand}"/>
+                            <Button Content=" _Purchase History " Tag="PurchasesList" x:Name="BtnPurchasesList" 
+                                    Margin="5,0,0,0" IsEnabled="{Binding ItemDetailEnability}"
+                                    Visibility="{Binding UserRoles.ItemPurchases}" Width="120"
+                                    CommandParameter="{Binding ElementName=BtnPurchasesList}"
+                                    Command="{Binding ItemViewCommand}"/>
+                            <Button Content=" _Counting History " Tag="PiList" x:Name="BtnPiList"
+                                    Margin="5,0,0,0" IsEnabled="{Binding ItemDetailEnability}"
+                                    Visibility="{Binding UserRoles.ItemCounts}" Width="120"
+                                    CommandParameter="{Binding ElementName=BtnPiList}"
+                                    Command="{Binding ItemViewCommand}"/>
+                            <Button Content="_Transfer History " Tag="ImList" x:Name="BtnImList"
+                                    Margin="5,0,0,0" IsEnabled="{Binding ItemDetailEnability}"
+                                    Visibility="{Binding UserRoles.ItemCounts}" Width="120"
+                                    CommandParameter="{Binding ElementName=BtnImList}"
+                                    Command="{Binding ItemViewCommand}"/>-->
+                            <Button Content="የእቃ ማዘዣ" Tag="UseItem" x:Name="BtnUseItem"
+                                    Margin="5,0,0,0" Visibility="{Binding UserRoles.ReceiveStock}"
+                                    Width="120"
+                                    CommandParameter="{Binding ElementName=BtnUseItem}"
+                                    Command="{Binding UseItemCommand}" />
+                            <Button Content="ቀሪ እቃ ማስሊያ" Tag="Export" x:Name="BtnExport"
+                                    Margin="5,0,0,0"
+                                    Width="120"
+                                    CommandParameter="{Binding ElementName=BtnExport}"
+                                    Command="{Binding ExportToExcelCommand}" />
+                            <Button Content="የእለት እቃ አትም" Tag="Print" x:Name="BtnPrint"
+                                    Margin="5,0,0,0"
+                                    Width="120"
+                                    CommandParameter="{Binding ElementName=BtnPrint}"
+                                    Command="{Binding PrintCommand}" />
+                        </StackPanel>
+                    </DockPanel>
+
+                </Grid>
+               
+                <!--<GridSplitter Grid.Row="1" Height="2" HorizontalAlignment="Stretch" />-->
+                
+                <Grid Grid.Row="2" Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Orientation="Vertical" />
+
+                    <Grid Grid.Row="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+
+
+                        <ListView Grid.Row="0" x:Name="ListView"
+                                  ItemContainerStyle="{StaticResource GridViewItem}"
+                                  SelectedItem="{Binding SelectedItemQuantity}"
+                                  ItemsSource="{Binding ItemsQuantity}">
+                            <ListView.View>
+                                <GridView AllowsColumnReorder="true"
+                                          ColumnHeaderContainerStyle="{StaticResource GridViewHeader}">
+                                    <GridViewColumn Header="ስቶር/ሱቅ"
+                                                    DisplayMemberBinding="{Binding Warehouse.DisplayName}" Width="130" />
+                                    <GridViewColumn Header="ቁጥር" DisplayMemberBinding="{Binding Item.Number}"
+                                                    Width="auto" />
+                                    <GridViewColumn Header="እቃው"
+                                                    DisplayMemberBinding="{Binding Item.DisplayName}" Width="150" />
+                                    <GridViewColumn Header="ምድብ"
+                                                    DisplayMemberBinding="{Binding Item.Category.DisplayName}"
+                                                    Width="90" />
+                                    <GridViewColumn Header="መለኪያ"
+                                                    DisplayMemberBinding="{Binding Item.UnitOfMeasure.DisplayName}"
+                                                    Width="auto" />
+                                    <!--<GridViewColumn Header="Purchase Price"
+                                                    DisplayMemberBinding="{Binding Item.PurchasePrice}" Width="auto" />
+                                    <GridViewColumn Header="Sale Price" DisplayMemberBinding="{Binding Item.SalePrice}"
+                                                    Width="auto" />-->
+                                    <GridViewColumn Header="ብዛት"
+                                                    DisplayMemberBinding="{Binding QuantityOnHand}" Width="auto" HeaderStringFormat="N"/>
+                                    <!--<GridViewColumn Header="Total Price"
+                                                    DisplayMemberBinding="{Binding TotalPriceString}" Width="100" />-->
+
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+
+                        <!--</StackPanel>-->
+                        <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left">
+                            <Grid Margin="10,5" TextBlock.Foreground="White"
+                                  TextBlock.FontFamily="Bookman Old Style"
+                                  TextBlock.FontSize="14"
+                                  TextBlock.FontWeight="Normal">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" Grid.Row="0" Text="አጠቃላይ እቃዎች = " />
+                                <TextBlock Grid.Column="1" Grid.Row="0" FontSize="14" FontWeight="Bold"
+                                           TextAlignment="Left"
+                                           Text="{Binding TotalNumberOfItemQuantityTypes}" />
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+
+                </Grid>
+
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

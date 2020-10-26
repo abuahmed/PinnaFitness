@@ -1,0 +1,355 @@
+﻿<Window x:Class="PinnaFit.WPF.Views.Trainers"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:local="clr-namespace:PinnaFit.Core.Extensions;assembly=PinnaFit.Core"
+        xmlns:model="clr-namespace:PinnaFit.Core.Enumerations;assembly=PinnaFit.Core"  
+        mc:Ignorable="d"
+        Title="{Binding TrainerText}" Height="600" Width="900" 
+        WindowStartupLocation="CenterScreen" Margin="0,0,0,0" WindowState="Maximized"
+        DataContext="{Binding Trainer, Source={StaticResource Locator}}"
+        Background="Transparent" WindowStyle="ThreeDBorderWindow" Closing="Trainers_OnClosing"
+        Icon="/PinnaFit.WPF;component/Resources/AppIcon.ico" Loaded="Window_Loaded">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/MainSkin.xaml" />
+                <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/ControlsDictionary.xaml" />
+                <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/ListViewDictionary.xaml" />
+                <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/ListBoxDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
+    </Window.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Border Style="{StaticResource mainBorder}" CornerRadius="0" 
+                TextBlock.FontFamily="Bookman old style" TextBlock.Foreground="White">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <!--Header Begin-->
+
+                <StackPanel Grid.Row="1" Margin="5,0"
+                            Orientation="Horizontal"  HorizontalAlignment="Right"
+                            Background="Transparent">
+                    <!--<ComboBox   Width="140" x:Name="CmbPaymentStatus"                                           
+                                        ItemsSource="{Binding TrainerTypeListForFilter, Mode= OneWay}"
+                                        SelectedItem="{Binding SelectedTrainerTypeForFilter}"
+                                        DisplayTrainerPath="Display"
+                                        Style="{StaticResource comboBoxStyle1}"/>-->
+
+                    <TextBlock  Text="Search " 
+                            Style="{StaticResource textBlockStyle1}"/>
+
+                    <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" 
+                             Style="{StaticResource searchTextBox}" Margin="10,0"/>
+                </StackPanel>
+
+                <Grid Grid.Row="2">
+
+                    <Grid Margin="2,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="2"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+
+                        <ListView x:Name="ListView" Grid.Row="1"
+                                  ItemContainerStyle="{StaticResource GridViewItem}" 
+                                  SelectedItem="{Binding SelectedTrainer}"                            
+                                  ItemsSource="{Binding Trainers}">
+                            <ListView.View>
+                                <GridView AllowsColumnReorder="true" ColumnHeaderContainerStyle="{StaticResource GridViewHeader}">
+                                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding DisplayName}"  Width="auto"/>
+                                    <GridViewColumn Header="Sex" DisplayMemberBinding="{Binding Sex}" Width="auto"/>
+                                    <!--<GridViewColumn Header="Position" DisplayMemberBinding="{Binding Type}" Width="auto"/>-->
+                                    <GridViewColumn Header="Mobile No." DisplayMemberBinding="{Binding Address.Mobile}" Width="auto"/>
+                                    <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Address.AddressDetail}" Width="auto"/>
+                                    <!--<GridViewColumn Header="Max. Allowed Credit" DisplayMemberBinding="{Binding CreditLimit}" Width="auto"/>
+                                    <GridViewColumn Header="Outstanding Credit" DisplayMemberBinding="{Binding TotalCreditString}"  Width="auto"/>-->
+                                    <!--<GridViewColumn Header="Outstanding Transactions" DisplayMemberBinding="{Binding TotalNoOfOutstandingTransactions}"  Width="auto"/>
+                                    <GridViewColumn Header="Credit Limit" DisplayMemberBinding="{Binding CreditLimit}"  Width="auto"/>
+                                    <GridViewColumn Header="Max Transactions Limit" DisplayMemberBinding="{Binding MaxNoCreditTransactions}"  Width="auto"/>-->
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+
+                        <Expander Grid.Row="2" Margin="5,0" Header="Trainer Detail" 
+                                  IsExpanded="True" TextBlock.Foreground="White">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid Grid.Column="0" Margin="5">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition  Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="1.3*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="ሙሉ ስም:" VerticalAlignment="Center"/>
+                                    <TextBox x:Name="TXtCustName" Grid.Row="0" Grid.Column="1" CharacterCasing="Upper"
+                                             ToolTip="{Binding (Validation.Errors)[0].ErrorContent, ElementName=TXtCustName}"
+                                             Text="{Binding SelectedTrainer.DisplayName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}" 
+                                             Validation.Error="Validation_Error" Margin="0,5,0,5"  />
+
+                                    <!--Move to Payment Managment<TextBlock Text="Position: " Grid.Column="0" Grid.Row="1" VerticalAlignment="Center"/>
+                                    <ComboBox   Grid.Column="1" Grid.Row="1" Margin="0"
+                                                x:Name="CmbTrainerTypeList"                                           
+                                                ItemsSource="{Binding TrainerTypeList, Mode= OneWay}"
+                                                SelectedItem="{Binding SelectedTrainerType}"
+                                                DisplayTrainerPath="Display"
+                                                Style="{StaticResource comboBoxStyle1}"/>-->
+
+                                    <TextBlock Grid.Row="0" Grid.Column="2" Text=" Number:" VerticalAlignment="Center"/>
+                                    <TextBox x:Name="TXtCustCode" Grid.Row="0"  Grid.Column="3" IsEnabled="False"
+                                             ToolTip="{Binding (Validation.Errors)[0].ErrorContent, ElementName=TxtOccupation}"
+                                             Text="{Binding SelectedTrainer.Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}" 
+                                             Validation.Error="Validation_Error" Margin="0,5,0,5" />
+
+                                    <TextBlock Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" 
+									            Text="Sex:"/>
+                                    <ComboBox Grid.Column="1" Grid.Row="1" x:Name="CmbSex"  Margin="0,2" SelectedIndex="0"
+									            SelectedValue="{Binding SelectedTrainer.Sex, Mode=TwoWay}" VerticalContentAlignment="Center"
+									            ItemsSource="{Binding Mode=OneWay, Source={local:Enumeration {x:Type model:Sex}}}" 
+									            Validation.ErrorTemplate="{x:Null}" 
+									            DisplayMemberPath="Description" 
+									            SelectedValuePath="Value"/>
+
+                                    <TextBlock Grid.Row="1" Grid.Column="2" Text=" Age:" VerticalAlignment="Center"/>
+                                    <TextBox x:Name="TXtAge" Grid.Row="1"  Grid.Column="3" IsEnabled="True"
+                                             ToolTip="{Binding (Validation.Errors)[0].ErrorContent, ElementName=TxtOccupation}"
+                                             Text="{Binding SelectedTrainer.Age, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}" 
+                                             Validation.Error="Validation_Error" Margin="0,5,0,5" />
+
+                                    <!--<TextBlock Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" 
+									    Text="Marital Status:"/>
+                                    <ComboBox   Grid.Column="1" Grid.Row="2" x:Name="CmbMaritalStatus"  
+                                                Margin="0,2" SelectedIndex="0"
+									            SelectedValue="{Binding SelectedTrainer.MaritalStatus, Mode=TwoWay}" 
+                                                VerticalContentAlignment="Center"
+                                                Background="Transparent"
+									            ItemsSource="{Binding Mode=OneWay, Source={local:Enumeration {x:Type model:MaritalStatusTypes}}}" 
+									            Validation.ErrorTemplate="{x:Null}"  
+									            DisplayMemberPath="Description" 
+									            SelectedValuePath="Value"/>
+                                   <TextBlock Grid.Row="2" Grid.Column="2" Text=" Occupation:" VerticalAlignment="Center"/>
+                                    <TextBox x:Name="TxtOccupation" Grid.Row="2"  Grid.Column="3" IsEnabled="True"
+                                             ToolTip="{Binding (Validation.Errors)[0].ErrorContent, ElementName=TxtOccupation}"
+                                             Text="{Binding SelectedTrainer.Occupation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}" 
+                                             Validation.Error="Validation_Error" Margin="0,5,0,5" />
+                                    <TextBlock Grid.Column="2" Grid.Row="1" Text=" Birth Date:" VerticalAlignment="Center"/>
+                                    <StackPanel Grid.Column="3" Grid.Row="1" Orientation="Horizontal" >
+                                        <DatePicker  x:Name="DtBirthDate" Width="auto"  VerticalAlignment="Center"                                 
+									        Text="{Binding SelectedTrainer.DateOfBirth, Mode=TwoWay}" 
+									        SelectedDateChanged="dtBirthDate_SelectedDateChanged"/>
+                                        <TextBlock VerticalAlignment="Center" x:Name="LblEcText" Text="{Binding SelectedTrainer.BirthDateEc}" 
+                                                   Margin="5,0,0,0"/>
+                                        <TextBox VerticalAlignment="Center" x:Name="LblAge" IsEnabled="False"
+                                                 Text="{Binding SelectedTrainer.AgeFromBirthDate,Mode=TwoWay}" 
+                                                   FontWeight="Bold" Margin="2,0,0,0" Width="30"/>
+                                    </StackPanel>-->
+
+                                    <!--<CheckBox Grid.Row="2" Grid.Column="1" Content="Is Active" 
+                                              IsChecked="{Binding SelectedTrainer.IsActive, Mode=TwoWay}" 
+                                              VerticalAlignment="center" FontSize="14" Foreground="White"/>-->
+
+
+                                    <StackPanel Grid.Row="3" Grid.Column="1" Grid.RowSpan="2" 
+                                                Orientation="Vertical">
+                                        <ListBox Margin="5,0" x:Name="LstTrainerAddress"  
+                                                 HorizontalAlignment="Stretch" 
+                                                 VerticalContentAlignment="Center"
+                                                 Visibility="Visible" 
+                                                 Background="Transparent" Focusable="False"
+                                                 BorderBrush="Transparent"
+                                                 MinHeight="50" MinWidth="50" 
+                                                 ItemsSource="{Binding TrainerAdressDetail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 ItemTemplate="{DynamicResource AddressBoxDataTemplate}"
+                                                 Style="{StaticResource myListboxStyle}"/>
+
+                                        <Button x:Name="BtnAddress" Margin="5,0"
+                                            Content=" _View/Change Address " Tag="TrainerAddress" 
+                                            Command="{Binding TrainerAddressViewCommand}" />
+                                    </StackPanel>
+                                
+                                </Grid>
+
+                                <!--<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />-->
+
+                                <Grid Grid.Column="2" >
+                                    <Grid Margin="5">
+                                        <StackPanel Margin="0,0,0,0">
+                                            <DockPanel LastChildFill="True" Background="#Fffe6700">
+                                                <Image  Name="ImgbtnEmployeeShortImage" HorizontalAlignment="Stretch"
+                                                        Height="190" 
+                                                        
+                                                        DockPanel.Dock="Top"
+                                                        Source="{Binding EmployeeShortImage}" 
+                                                        Stretch="Fill"/>
+                                                <Button  Content="_Browse Photo"
+                                                         Name="BtnEmployeeShortImage" 
+                                                         DockPanel.Dock="Bottom"
+                                                         Command="{Binding ShowEmployeeShortImageCommand}" 
+                                                         Margin="0,5,0,0"
+                                                         VerticalAlignment="Center"/>
+                                            </DockPanel>
+                                        </StackPanel>
+
+                                    </Grid>
+                                </Grid>
+
+                            </Grid>
+                        </Expander>
+
+                        <Expander Grid.Row="3" Margin="5,0"
+                                  Header="Emergency/Contact Person Detail" HorizontalAlignment="Stretch" 
+                                              IsExpanded="False"
+                                              TextBlock.Foreground="White">
+
+                            <Grid Margin="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Full Name:" VerticalAlignment="Center"/>
+                                <TextBox x:Name="TxtContactName" Grid.Row="0" Grid.ColumnSpan="3" Grid.Column="1" 
+                                             ToolTip="{Binding (Validation.Errors)[0].ErrorContent, ElementName=TxtContactName}"
+                                             Text="{Binding SelectedTrainer.ContactPerson.DisplayName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}" 
+                                             Validation.Error="Validation_Error" Margin="0,5,0,5" />
+
+                                <TextBlock Grid.Column="4" Grid.Row="0" VerticalAlignment="Center" 
+									            Text=" Sex:"/>
+                                <ComboBox Grid.Column="5" Grid.Row="0" x:Name="ContactSex"  Margin="0,2" SelectedIndex="0"
+									            SelectedValue="{Binding SelectedTrainer.ContactPerson.Sex, Mode=TwoWay}" VerticalContentAlignment="Center"
+									            ItemsSource="{Binding Mode=OneWay, Source={local:Enumeration {x:Type model:Sex}}}" 
+									            Validation.ErrorTemplate="{x:Null}"  Background="Transparent"
+									            DisplayMemberPath="Description" 
+									            SelectedValuePath="Value"/>
+
+                                <!--<TextBlock Grid.Row="1" Grid.Column="0" Text="Work:" VerticalAlignment="Center"/>
+                                <TextBox x:Name="TxtContactWork" Grid.Row="1" Grid.Column="1" 
+                                             ToolTip="{Binding (Validation.Errors)[0].ErrorContent, ElementName=TxtContactWork}"
+                                             Text="{Binding SelectedTrainer.ContactPerson.Work, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}" 
+                                             Validation.Error="Validation_Error" Margin="0,5,0,5" />
+
+                                <TextBlock Grid.Row="1" Grid.Column="2" Text=" Monthly Income: " VerticalAlignment="Center"/>
+                                <TextBox x:Name="TxtContactIncome" Grid.Row="1" Grid.Column="3" 
+                                             ToolTip="{Binding (Validation.Errors)[0].ErrorContent, ElementName=TxtContactIncome}"
+                                             Text="{Binding SelectedTrainer.ContactPerson.MonthlyIncome, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}" 
+                                             Validation.Error="Validation_Error" Margin="0,5,0,5" />-->
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Address: " 
+                                           VerticalAlignment="Center"/>
+                                <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ListBox Margin="0" x:Name="LstContactAddress"  
+                                                 HorizontalAlignment="Stretch" 
+                                                 VerticalAlignment="Center"
+                                                 Visibility="Visible" 
+                                                 Background="Transparent" Focusable="False"
+                                                 BorderBrush="Transparent"
+                                                 MinWidth="50" 
+                                                 ItemsSource="{Binding ContactAdressDetail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 ItemTemplate="{DynamicResource AddressBoxHorizontalDataTemplate}"
+                                                 Style="{StaticResource myListboxStyle}"/>
+
+                                    <Button Grid.Column="1" x:Name="BtnContactAddress" Margin="5,0"
+                                            Content=" _View/Change Contact Address " Tag="ContactAddress" 
+                                            Command="{Binding StaffContactAddressViewCommand}" />
+                                </Grid>
+
+                            </Grid>
+
+                        </Expander>
+                        <Expander Grid.Row="4" Margin="5,0" Header="Other Details" 
+                                  IsExpanded="False"
+                                  TextBlock.Foreground="White">
+
+                            <Grid Margin="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                </Grid.RowDefinitions>
+
+
+                            </Grid>
+                        </Expander>
+
+                        <GridSplitter Grid.Row="5" HorizontalAlignment="Stretch" />
+                        <!--Bottom Buttons Begin-->
+                        <StackPanel Orientation="Horizontal" Grid.Row="6" Background="Transparent" HorizontalAlignment="Right">
+
+                            <Button Content="_Add New" Tag="Add New" x:Name="BtnAddNew"
+                                    Command="{Binding AddNewTrainerViewCommand}" Click="BtnAddNew_OnClick"
+                                    CommandParameter="{Binding ElementName=BtnAddNew}"                                     
+                                    Style="{StaticResource bottomButtons}"/>
+
+                            <Button Content="_Save" Tag="Save" x:Name="BtnSave"
+                                    Command="{Binding SaveTrainerViewCommand}" 
+                                    CommandParameter="{Binding ElementName=BtnSave}" 
+                                    Style="{StaticResource bottomButtons}" />
+
+                            <Button Content="_Delete" Tag="Delete" x:Name="BtnDelete"
+                                    Command="{Binding DeleteTrainerViewCommand}" 
+                                    CommandParameter="{Binding ElementName=BtnDelete}"                                     
+                                    Style="{StaticResource bottomButtons}"/>
+
+                            <Button  Content="_Print" Tag="Print" x:Name="BtnPrint"
+                                     Command="{Binding PrintListCommandView}"
+                                     CommandParameter="{Binding ElementName=BtnPrint}"
+                                     Style="{StaticResource bottomButtons}"/>
+                        </StackPanel>
+                        <!--Bottom Buttons End-->
+                    </Grid>
+                </Grid>
+
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

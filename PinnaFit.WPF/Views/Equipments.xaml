@@ -1,0 +1,195 @@
+﻿<Window x:Class="PinnaFit.WPF.Views.Equipments"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="{Binding EquipmentText}" Height="500" Width="600" 
+        WindowStartupLocation="CenterScreen" Margin="0,0,0,0" ResizeMode="NoResize"
+        DataContext="{Binding Equipment, Source={StaticResource Locator}}" WindowState="Normal"
+        Background="Transparent" WindowStyle="ThreeDBorderWindow" Closing="Equipments_OnClosing"
+        Icon="/PinnaFit.WPF;component/Resources/AppIcon.ico" Loaded="Window_Loaded">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/MainSkin.xaml" />
+                <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/ControlsDictionary.xaml" />
+                <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/ListViewDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
+    </Window.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Border Style="{StaticResource mainBorder}" CornerRadius="0" 
+                TextBlock.FontFamily="Bookman old style" TextBlock.Foreground="White">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <!--Header Begin-->
+
+                <StackPanel Grid.Row="1" Margin="5,0"
+                            Orientation="Horizontal"  HorizontalAlignment="Right"
+                            Background="Transparent">
+                    <!--<ComboBox   Width="140" x:Name="CmbPaymentStatus"                                           
+                                        ItemsSource="{Binding EquipmentTypeListForFilter, Mode= OneWay}"
+                                        SelectedItem="{Binding SelectedEquipmentTypeForFilter}"
+                                        DisplayMemberPath="Display"
+                                        Style="{StaticResource comboBoxStyle1}"/>-->
+                    
+                    <!--<TextBlock  Text="Search " 
+                            Style="{StaticResource textBlockStyle1}"/>
+
+                    <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" 
+                             Style="{StaticResource searchTextBox}" Margin="10,0" />-->
+                </StackPanel>
+                <!--Header End-->
+
+
+                <Grid Grid.Row="2">
+
+                    <Grid Margin="2,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="2"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+
+                        <ListView x:Name="ListView" Grid.Row="1"
+                                  ItemContainerStyle="{StaticResource GridViewItem}" 
+                                  SelectedItem="{Binding SelectedEquipment}"                            
+                                  ItemsSource="{Binding Equipments}">
+                            <ListView.View>
+                                <GridView AllowsColumnReorder="true" ColumnHeaderContainerStyle="{StaticResource GridViewHeader}">
+                                    <GridViewColumn Header="Number" DisplayMemberBinding="{Binding Number}"  Width="100"/>
+                                    <GridViewColumn Header="Category" DisplayMemberBinding="{Binding Category.DisplayName}" Width="auto"/>
+                                    <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}"  Width="200"/>
+                                    </GridView>
+                            </ListView.View>
+                        </ListView>
+
+                        <Expander Grid.Row="2" Margin="5,0" Header="Detail" 
+                                  IsExpanded="True" TextBlock.Foreground="White">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <!--<ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="*"/>-->
+                                </Grid.ColumnDefinitions>
+
+                                <Grid Grid.Column="0" Margin="5">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                    </Grid.RowDefinitions>
+
+                                    <!--<TextBlock Grid.Row="0" Grid.Column="0" Text="Name:" VerticalAlignment="Center"/>
+                                    <TextBox x:Name="TxtName" Grid.Row="0" Grid.Column="1" 
+                                             ToolTip="{Binding (Validation.Errors)[0].ErrorContent, ElementName=TxtNumber}"
+                                             Text="{Binding SelectedEquipment.DisplayName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}" 
+                                             Validation.Error="Validation_Error" Margin="0,5,0,5" />-->
+                                    
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Number:" VerticalAlignment="Center"/>
+                                    <TextBox x:Name="TxtNumber" Grid.Row="0" Grid.Column="1" IsEnabled="False"
+                                             ToolTip="{Binding (Validation.Errors)[0].ErrorContent, ElementName=TxtNumber}"
+                                             Text="{Binding SelectedEquipment.Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}" 
+                                             Validation.Error="Validation_Error" Margin="0,5,0,5" />
+
+                                    <TextBlock Text="Category: " Grid.Column="0" Grid.Row="1" VerticalAlignment="Center"/>
+                                    <Grid Grid.Row="1" Grid.Column="1" Margin="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ComboBox ItemsSource="{Binding Categories, Mode=OneWay}"  Grid.Column="0"
+                                                  DisplayMemberPath="DisplayName" VerticalContentAlignment="Center"
+                                                  Background="Transparent"
+                                                  SelectedItem="{Binding SelectedCategory}" />
+
+                                        <Button Grid.Column="1" Foreground="White" x:Name="BtnAddNewCategory"  Content="  + " FontSize="14" 
+                                                Command="{Binding AddNewCategoryCommand}" 
+                                                FontWeight="ExtraBold" Margin="0,0,0,0" ToolTip="Add New Category"/>
+                                    </Grid>
+                            
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Description:" VerticalAlignment="Center"/>
+                                    <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" x:Name="TxtStreetAddress" TextWrapping="Wrap"   ToolTip="{Binding (Validation.Errors)[0].ErrorContent, ElementName=TxtStreetAddress}" 
+                                                     Text="{Binding SelectedEquipment.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" 
+                                                     Validation.Error="Validation_Error" Grid.RowSpan="2" Margin="0,3" />
+
+
+
+                                </Grid>
+
+
+                            </Grid>
+                        </Expander>
+
+                        <Expander Grid.Row="3" Margin="5,0" Header="Advanced" 
+                                  Visibility="Visible"
+                                  IsExpanded="False" 
+                                  TextBlock.Foreground="White">
+                            <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                             </Grid.RowDefinitions>
+                                
+                                
+                            </Grid>
+                        </Expander>
+                        
+                         <GridSplitter Grid.Row="4" HorizontalAlignment="Stretch" />
+                        <!--Bottom Buttons Begin-->
+                        <StackPanel Orientation="Horizontal" Grid.Row="5" Background="Transparent" HorizontalAlignment="Right">
+
+                            <!--<Button Content="_View Credits" Tag="ViewCredit" x:Name="BtnViewCredit"
+                                    Command="{Binding ViewCreditCommand}" 
+                                    Visibility="{Binding ViewCreditsVisibility,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                    CommandParameter="{Binding ElementName=BtnViewCredit}"                                     
+                                    Style="{StaticResource bottomButtons}"/>-->
+
+                            <Button Content="_Add New" Tag="Add New" x:Name="BtnAddNew"
+                                    Command="{Binding AddNewEquipmentViewCommand}" Click="BtnAddNew_OnClick"
+                                    CommandParameter="{Binding ElementName=BtnAddNew}"                                     
+                                    Style="{StaticResource bottomButtons}"/>
+
+                            <Button Content="_Save" Tag="Save" x:Name="BtnSave"
+                                    Command="{Binding SaveEquipmentViewCommand}" 
+                                    CommandParameter="{Binding ElementName=BtnSave}" 
+                                    Style="{StaticResource bottomButtons}" />
+
+                            <Button Content="_Delete" Tag="Delete" x:Name="BtnDelete"
+                                    Command="{Binding DeleteEquipmentViewCommand}" 
+                                    CommandParameter="{Binding ElementName=BtnDelete}"                                     
+                                    Style="{StaticResource bottomButtons}"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

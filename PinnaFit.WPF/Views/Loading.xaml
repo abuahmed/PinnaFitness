@@ -1,0 +1,32 @@
+﻿<Window x:Class="PinnaFit.WPF.Views.Loading"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Loading" Height="50" Width="400"
+        x:Name="WdwLoading"
+        Background="Transparent" AllowsTransparency="True" WindowStyle="None"
+        WindowStartupLocation="CenterScreen" Icon="/PinnaFit.WPF;component/Resources/AppIcon.ico">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/MainSkin.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Border Style="{StaticResource mainBorder}" >
+            <Grid Margin="10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <ProgressBar Height="25" Grid.Column="0" Background="White"
+                                     Visibility="{Binding ProgressBarVisibility}" Margin="10,0,0,0"
+                                     IsIndeterminate="True" />
+                <TextBlock Grid.Column="1" Foreground="White" Text="Loading... please wait." 
+                           FontWeight="Bold"
+                           VerticalAlignment="Center" Margin="5,0"></TextBlock>
+            </Grid>
+        </Border>
+
+    </Grid>
+</Window>

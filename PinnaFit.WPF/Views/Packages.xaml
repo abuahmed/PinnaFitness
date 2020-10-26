@@ -1,0 +1,197 @@
+﻿<Window x:Class="PinnaFit.WPF.Views.Packages"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="{Binding FacilitySubscriptionText}" Height="500" Width="600" 
+        WindowStartupLocation="CenterScreen" Margin="0,0,0,0" ResizeMode="NoResize"
+        DataContext="{Binding Packages, Source={StaticResource Locator}}" WindowState="Normal"
+        Background="Transparent" WindowStyle="ThreeDBorderWindow" Closing="FacilitySubscriptions_OnClosing"
+        Icon="/PinnaFit.WPF;component/Resources/AppIcon.ico" Loaded="Window_Loaded">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/MainSkin.xaml" />
+                <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/ControlsDictionary.xaml" />
+                <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/ListViewDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
+    </Window.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Border Style="{StaticResource mainBorder}" CornerRadius="0" 
+                TextBlock.FontFamily="Bookman old style" TextBlock.Foreground="White">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <!--Header Begin-->
+
+                <StackPanel Grid.Row="1" Margin="5,0"
+                            Orientation="Horizontal"  HorizontalAlignment="Right"
+                            Background="Transparent">
+                    <!--<ComboBox   Width="140" x:Name="CmbPaymentStatus"                                           
+                                        ItemsSource="{Binding FacilitySubscriptionTypeListForFilter, Mode= OneWay}"
+                                        SelectedItem="{Binding SelectedFacilitySubscriptionTypeForFilter}"
+                                        DisplayMemberPath="Display"
+                                        Style="{StaticResource comboBoxStyle1}"/>-->
+                    
+                    <!--<TextBlock  Text="Search " 
+                            Style="{StaticResource textBlockStyle1}"/>
+
+                    <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" 
+                             Style="{StaticResource searchTextBox}" Margin="10,0" />-->
+                </StackPanel>
+                <!--Header End-->
+
+
+                <Grid Grid.Row="2">
+
+                    <Grid Margin="2,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="2"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+
+                        <ListView x:Name="ListView" Grid.Row="1"
+                                  ItemContainerStyle="{StaticResource GridViewItem}" 
+                                  SelectedItem="{Binding SelectedFacilitySubscription}"                            
+                                  ItemsSource="{Binding FacilitySubscriptions}">
+                            <ListView.View>
+                                <GridView AllowsColumnReorder="true" ColumnHeaderContainerStyle="{StaticResource GridViewHeader}">
+                                    <GridViewColumn Header="Training" DisplayMemberBinding="{Binding Facility.DisplayName}"  Width="200"/>
+                                    <GridViewColumn Header="Duration" DisplayMemberBinding="{Binding Subscription.DisplayName}"  Width="200"/>
+                                    <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding Amount}" Width="auto"/>
+                                    </GridView>
+                            </ListView.View>
+                        </ListView>
+
+                        <Expander Grid.Row="2" Margin="5,0" Header="Detail" 
+                                  IsExpanded="True" TextBlock.Foreground="White">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <!--<ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="*"/>-->
+                                </Grid.ColumnDefinitions>
+
+                                <Grid Grid.Column="0" Margin="5">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                    </Grid.RowDefinitions>
+                                   
+                                    <TextBlock Text="Facility: " Grid.Column="0" Grid.Row="0" VerticalAlignment="Center"/>
+                                    <ComboBox   Grid.Column="1" Grid.Row="0" Margin="0"
+                                        x:Name="CmbFacilitySubscriptionTypeList"                                           
+                                        ItemsSource="{Binding Facilities, Mode= OneWay}"
+                                        SelectedItem="{Binding SelectedFacility}"
+                                        DisplayMemberPath="DisplayName"
+                                        Style="{StaticResource comboBoxStyle1}"/>
+
+                                    <TextBlock Text=" Subscription:" Grid.Column="2" Grid.Row="0" VerticalAlignment="Center"/>
+                                    <ComboBox   Grid.Column="3" Grid.Row="0" Margin="0"
+                                        x:Name="CmbSubscriptionTypeList"                                           
+                                        ItemsSource="{Binding Subscriptions, Mode= OneWay}"
+                                        SelectedItem="{Binding SelectedSubscription}"
+                                        DisplayMemberPath="DisplayName"
+                                        Style="{StaticResource comboBoxStyle1}"/>
+
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text=" Amount:" VerticalAlignment="Center"/>
+                                    <TextBox x:Name="TxtAmount" Grid.Row="1" Grid.Column="1" IsEnabled="True"
+                                             ToolTip="{Binding (Validation.Errors)[0].ErrorContent, ElementName=TxtAmount}"
+                                             Text="{Binding SelectedFacilitySubscription.Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}" 
+                                             Validation.Error="Validation_Error" Margin="0,5,0,5" />
+                            
+                                </Grid>
+
+
+                            </Grid>
+                        </Expander>
+
+                        <Expander Grid.Row="3" Margin="5,0" Header="Advanced" 
+                                  Visibility="Collapsed"
+                                  IsExpanded="False" 
+                                  TextBlock.Foreground="White">
+                            <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                             </Grid.RowDefinitions>
+                                
+                                <CheckBox Grid.Column="1" Content="Is Active" 
+                                              IsChecked="{Binding SelectedFacilitySubscription.IsActive, Mode=TwoWay}" 
+                                              VerticalAlignment="center" FontSize="14" Foreground="White"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Assigned To: " 
+                                           VerticalAlignment="Center"/>
+                                <ComboBox Grid.Row="1" Grid.Column="1" 
+                                          ItemsSource="{Binding Drivers, Mode=OneWay}"  
+                                          DisplayMemberPath="DisplayName"
+                                          VerticalContentAlignment="Center"
+                                          Margin="0,2" SelectedItem="{Binding SelectedDriver}" />
+
+                                <TextBlock Grid.Row="1" Grid.Column="2" Text="Assigned Date: " 
+                                           VerticalAlignment="Center"/>
+                                
+                                <DatePicker Grid.Row="1" Grid.Column="3"  x:Name="DtAssignedDate" 
+                                            VerticalAlignment="Center"              
+									        Text="{Binding SelectedFacilitySubscription.AssignedOnDate, Mode=TwoWay}"/>
+                            </Grid>
+                        </Expander>
+                        
+                         <GridSplitter Grid.Row="4" HorizontalAlignment="Stretch" />
+                        <!--Bottom Buttons Begin-->
+                        <StackPanel Orientation="Horizontal" Grid.Row="5" Background="Transparent" HorizontalAlignment="Right">
+
+                            <!--<Button Content="_View Credits" Tag="ViewCredit" x:Name="BtnViewCredit"
+                                    Command="{Binding ViewCreditCommand}" 
+                                    Visibility="{Binding ViewCreditsVisibility,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                    CommandParameter="{Binding ElementName=BtnViewCredit}"                                     
+                                    Style="{StaticResource bottomButtons}"/>-->
+
+                            <Button Content="_Add New" Tag="Add New" x:Name="BtnAddNew"
+                                    Command="{Binding AddNewFacilitySubscriptionViewCommand}" Click="BtnAddNew_OnClick"
+                                    CommandParameter="{Binding ElementName=BtnAddNew}"                                     
+                                    Style="{StaticResource bottomButtons}"/>
+
+                            <Button Content="_Save" Tag="Save" x:Name="BtnSave"
+                                    Command="{Binding SaveFacilitySubscriptionViewCommand}" 
+                                    CommandParameter="{Binding ElementName=BtnSave}" 
+                                    Style="{StaticResource bottomButtons}" />
+
+                            <Button Content="_Delete" Tag="Delete" x:Name="BtnDelete"
+                                    Command="{Binding DeleteFacilitySubscriptionViewCommand}" 
+                                    CommandParameter="{Binding ElementName=BtnDelete}"                                     
+                                    Style="{StaticResource bottomButtons}"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

@@ -1,0 +1,318 @@
+﻿<Window x:Class="PinnaFit.WPF.Views.AttendanceEntry"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        mc:Ignorable="d"
+        Title="አባል አቴንዳንስ ማስገቢያ" Height="400" Width="620" Name="WdwAttendanceEntry"
+        WindowStartupLocation="CenterScreen" Margin="0,0,0,0" ResizeMode="NoResize"
+        DataContext="{Binding MemberAttendance, Source={StaticResource Locator}}" WindowState="Normal"
+        Background="Transparent" WindowStyle="ThreeDBorderWindow" Closing="MemberAttendances_OnClosing"
+        Icon="/PinnaFit.WPF;component/Resources/AppIcon.ico" Loaded="Window_Loaded">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/MainSkin.xaml" />
+                <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/ControlsDictionary.xaml" />
+                <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/ListViewDictionary.xaml" />
+                <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/ListBoxDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
+    </Window.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Border Style="{StaticResource mainBorder}" CornerRadius="0" 
+                TextBlock.FontFamily="Bookman old style" TextBlock.Foreground="White">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+
+                <Grid Grid.Row="2">
+
+                    <Grid Margin="2,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="2"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+
+                        <Expander Grid.Row="1" Margin="5,0" Header="አባል መረጃ" 
+                                  IsExpanded="True" TextBlock.Foreground="White">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <telerik:RadAutoCompleteBox Visibility="Visible" x:Name="LstItemsAutoCompleteBox" 
+                                                            Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+                                                                ItemsSource="{Binding Members, Mode=TwoWay}"
+                                                                SelectedItem="{Binding SelectedMember, Mode=TwoWay}" Margin="0,5,0,5" 
+                                                                HorizontalAlignment="Stretch" 
+                                                                VerticalAlignment="Center"
+                                                                WatermarkContent="አባል ፈልግ..."
+                                                                ToolTip="Search Member by Number/Name/Mobile"
+											                    TextSearchMode="Contains"
+											                    AutoCompleteMode="Suggest"
+											                    SelectionMode="Single"
+											                    TextSearchPath="MemberDetail"											                
+											                    BorderBrush="#FF25A0DA" BorderThickness="1"
+                                                                SelectionChanged="LstItemsAutoCompleteBox_SelectionChanged" 
+                                                                GotFocus="LstItemsAutoCompleteBox_GotFocus" 
+                                                                GotKeyboardFocus="LstItemsAutoCompleteBox_GotKeyboardFocus"/>
+                                <TextBox Grid.Row="0" Grid.Column="3" Text="{ Binding SelectedMemberSubscription.Member.Number}" 
+                                         Margin="5,5,0,5" FontWeight="Bold" IsEnabled="False"/>
+                                <!--<TextBox Name="TxtBarCode" Margin="0,5,0,5"
+                                         Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" KeyDown="TxtBarCode_OnPreviewKeyDown"/>
+                                <Button Content="OK" IsDefault="True" x:Name="BtnEnter" Grid.Row="0" Grid.Column="2"
+                                    Command="{Binding CheckMemberAttendanceViewCommand}"
+                                    CommandParameter="{Binding ElementName=BtnAddNew}"                                     
+                                    Style="{StaticResource bottomButtons}" />                      
+                                
+                                <ProgressBar Grid.Row="0" Height="25" Background="White" Width="Auto" Grid.Column="3"
+                                     Visibility="{Binding ProgressBarVisibility}" Margin="2,5"
+                                     IsIndeterminate="True" />-->
+
+                                <Grid Grid.Column="4" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="4">
+                                    <Grid Margin="5">
+                                        <StackPanel Margin="0,0,0,0">
+                                            <DockPanel LastChildFill="True" Background="#Fffe6700">
+                                                <Image  Name="ImgbtnEmployeeShortImage" HorizontalAlignment="Stretch"
+                                                        Height="110" 
+                                                        DockPanel.Dock="Top"
+                                                        Source="{Binding EmployeeShortImage}" 
+                                                        Stretch="Fill"/>
+                                            </DockPanel>
+                                        </StackPanel>
+
+                                    </Grid>
+                                </Grid>
+                                <TextBlock Grid.Row="1" Grid.Column="0"  Text="ስም: " Style="{StaticResource textBlockStyle1}" Margin="0"/>
+                                <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{ Binding SelectedMemberSubscription.Member.DisplayName}" 
+                                         Margin="0,5" FontWeight="Bold" IsEnabled="False" />
+
+                                
+                                <!--<TextBlock Grid.Row="1" Grid.Column="2"  Text="ጾታ: " Style="{StaticResource textBlockStyle1}" HorizontalAlignment="Right" Margin="0"/>-->
+                                <TextBox Grid.Row="1" Grid.Column="3" Text="{ Binding SelectedMemberSubscription.Member.SexAmharic}" 
+                                         Margin="5,5,0,5" FontWeight="Bold" IsEnabled="False"/>
+                                
+                                <TextBlock Grid.Row="2" Grid.Column="0"  Text="ፓኬጅ: " Style="{StaticResource textBlockStyle1}" Margin="0"/>
+                                <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Text="{ Binding SelectedMemberSubscription.FacilitySubscription.PackageName}" Margin="0,5" FontWeight="Bold" IsEnabled="False"/>
+
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="የጀመረበት ቀን: " Style="{StaticResource textBlockStyle1}" Margin="0,0,0,8" VerticalAlignment="Bottom"/>
+                                <TextBox Grid.Row="3" Grid.Column="1"  Margin="0,5" x:Name="DtStartDate"  IsEnabled="False"  FontWeight="Bold"
+                                                  Text="{Binding SelectedMemberSubscription.StartDateStringAmharic}"/>
+                                <TextBlock Grid.Row="3" Grid.Column="2" Text="የሚያበቃበት ቀን: " Style="{StaticResource textBlockStyle1}" Margin="5,0,0,0"/>
+                                <TextBox Grid.Row="3" Grid.Column="3"  Margin="0,5" x:Name="DtEndDate" IsEnabled="False" FontWeight="Bold"    
+                                                  Text="{Binding SelectedMemberSubscription.EndDateStringAmharic}"/>
+
+                                <TextBlock Grid.Row="4" Grid.Column="0" Text="የተጠቀመው ቀኖች: " Style="{StaticResource textBlockStyle1}" Margin="0,0,0,0"/>
+                                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding SelectedMemberSubscription.NoOfAttendances}" FontWeight="Bold" Margin="0,5" IsEnabled="False"/>
+
+                                <TextBlock Grid.Row="4" Grid.Column="2" Text="የቀሩት ቀኖች: " Style="{StaticResource textBlockStyle1}" Margin="5,0,0,0"/>
+                                <TextBox Grid.Row="4" Grid.Column="3" Text="{Binding SelectedMemberSubscription.DaysLeft}" FontWeight="Bold" Margin="0,5" IsEnabled="False"/>
+                                
+                            </Grid>
+                        </Expander>
+                        
+                        <Expander Grid.Row="2" Margin="5,0" Header="አቴንዳንስ ዝርዝር" 
+                                  IsExpanded="True" TextBlock.Foreground="White">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1.5*"/>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid Grid.Column="0" Margin="5">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text=" የገባበት ቀንና ሰዓት:" VerticalAlignment="Center"/>
+                                    <telerik:RadDateTimePicker   Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="0"  x:Name="DtAttendanceDate"                                        
+									                            ToolTip="{Binding (Validation.Errors)[0].ErrorContent, ElementName=DtAttendanceDate}" 
+									                            SelectedValue="{Binding SelectedMemberAttendance.CheckedInTime, Mode=TwoWay, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+									                            Validation.Error="Validation_Error" DateTimeWatermarkContent="የገባበት ቀንና ሰዓት"
+									                            VerticalAlignment="Center"/>
+
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text=" ቁልፍ ቁጥር:" VerticalAlignment="Center"/>
+                                    <TextBox x:Name="TxtWeight" Grid.Row="1" Grid.Column="1" IsEnabled="True"
+                                             ToolTip="{Binding (Validation.Errors)[0].ErrorContent, ElementName=TxtWeight}"
+                                             Text="{Binding SelectedMemberAttendance.LockerNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}" 
+                                             Validation.Error="Validation_Error" Margin="0,5,0,5" />
+
+
+
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text=" ተጨማሪ:" VerticalAlignment="Center"/>
+                                    <TextBox x:Name="TxtNotes" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Grid.RowSpan="2" IsEnabled="True"
+                                             ToolTip="{Binding (Validation.Errors)[0].ErrorContent, ElementName=TxtWeight}"
+                                             Text="{Binding SelectedMemberAttendance.Comments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}" 
+                                             Validation.Error="Validation_Error" Margin="0,5,0,5" />
+                                </Grid>
+
+                                <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Stretch" />
+
+                                <Grid Grid.Column="2" Margin="5,0" Visibility="Collapsed">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"  VerticalAlignment="Top">
+                                        <TextBlock Text="የተጠቀማቸው አገልግሎቶች"  FontWeight="Bold"  />
+                                        <Separator Background="White"/>
+                                    </StackPanel>
+
+                                    <ListBox    Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,0" 
+									            x:Name="LstUserServices" Foreground="Black"
+                                                Background="Transparent" MinHeight="100"
+									            BorderBrush="Transparent" IsTextSearchEnabled="True"
+                                                SelectedItem="{Binding SelectedService}"
+									            ItemsSource="{Binding SelectedServices, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                ItemTemplate="{DynamicResource FacilityServiceBoxDataTemplate}">
+                                    </ListBox>
+
+                                    <ComboBox x:Name="CmbTypeOfService" Grid.Column="0" Grid.Row="4" Margin="0,0,5,0" 
+                                              ItemsSource="{Binding FilteredServices,Mode=OneWay}"
+                                              SelectedItem="{Binding SelectedServiceToAdd}" 
+                                              DisplayMemberPath="DisplayName"
+                                              Background="Transparent"/>
+
+                                    <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <Button Content="ጨምር"   Width="50"
+                                                Command="{Binding AddServiceViewCommand}" IsEnabled="{Binding AddServiceEnability}"/>
+                                        <Button Content="ቀንስ"  Width="55"
+                                                Command="{Binding RemoveServiceViewCommand}" IsEnabled="{Binding RemoveServiceEnability}"/>
+                                    </StackPanel>
+
+                                    <CheckBox Grid.Column="0" Grid.Row="5" Background="Transparent" Grid.ColumnSpan="2"
+                                                IsChecked="{Binding AllServicesChecked}"
+                                                Content="ሁሉንም ጨምር"/>
+                                </Grid>
+                                
+                            </Grid>
+                        </Expander>
+
+                        <!--<Expander Grid.Row="3" Margin="5,0" Header="Advanced" 
+                                  Visibility="Collapsed"
+                                  IsExpanded="False" 
+                                  TextBlock.Foreground="White">
+                            <Grid Margin="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                </Grid.RowDefinitions>
+
+                                <CheckBox Grid.Column="1" Content="Is Active" 
+                                              IsChecked="{Binding SelectedMemberAttendance.IsActive, Mode=TwoWay}" 
+                                              VerticalAlignment="center" FontSize="14" Foreground="White"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Assigned To: " 
+                                           VerticalAlignment="Center"/>
+                                <ComboBox Grid.Row="1" Grid.Column="1" 
+                                          ItemsSource="{Binding Drivers, Mode=OneWay}"  
+                                          DisplayMemberPath="DisplayName"
+                                          VerticalContentAlignment="Center"
+                                          Margin="0,2" SelectedItem="{Binding SelectedDriver}" />
+
+                                <TextBlock Grid.Row="1" Grid.Column="2" Text="Assigned Date: " 
+                                           VerticalAlignment="Center"/>
+
+                                <DatePicker Grid.Row="1" Grid.Column="3"  x:Name="DtAssignedDate" 
+                                            VerticalAlignment="Center"              
+									        Text="{Binding SelectedMemberAttendance.AssignedOnDate, Mode=TwoWay}"/>
+                            </Grid>
+                        </Expander>-->
+
+                        <GridSplitter Grid.Row="4" HorizontalAlignment="Stretch" />
+                        <!--Bottom Buttons Begin-->
+                        <StackPanel Orientation="Horizontal" Grid.Row="5" Background="Transparent" HorizontalAlignment="Right">
+
+                            
+                            <Button Tag="Add New" x:Name="BtnAddNew"
+                                    Command="{Binding AddNewMemberAttendanceViewCommand}" Click="BtnAddNew_OnClick"
+                                    CommandParameter="{Binding ElementName=BtnAddNew}"                                     
+                                    Style="{StaticResource bottomButtons}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="../Resources/Images/add.png" Height="30" Width="30" Stretch="Uniform" />
+                                    <TextBlock VerticalAlignment="Center"> አዲስ አስገባ</TextBlock>
+                                </StackPanel>
+                            </Button>
+
+                            <Button x:Name="BtnSave" IsDefault="True" Click="BtnAddNew_OnClick"
+                                    Command="{Binding SaveMemberAttendanceViewCommand}" 
+                                    CommandParameter="{Binding ElementName=BtnSave}" 
+                                    Style="{StaticResource bottomButtons}" >
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="../Resources/Images/disk_blue.png" Height="30" Width="30" Stretch="Uniform" />
+                                    <TextBlock VerticalAlignment="Center"> አስቀምጥ</TextBlock>
+                                </StackPanel>
+                            </Button>
+
+                            <!--<Button x:Name="BtnCloseW" 
+                                    Style="{StaticResource bottomButtons}" 
+                                    Command="{Binding CloseWindowViewCommand}"
+                                    CommandParameter="{Binding ElementName=WdwAttendanceEntry}"
+                                    IsCancel="True">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="../Resources/Images/exit.png" Height="30" Width="30" Stretch="Uniform" />
+                                    <TextBlock VerticalAlignment="Center">  ዝጋ</TextBlock>
+                                </StackPanel>
+                            </Button>
+                            <Button Content="_Delete" Tag="Delete" x:Name="BtnDelete"
+                                    Command="{Binding DeleteMemberAttendanceViewCommand}" 
+                                    CommandParameter="{Binding ElementName=BtnDelete}"                                     
+                                    Style="{StaticResource bottomButtons}"/>-->
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

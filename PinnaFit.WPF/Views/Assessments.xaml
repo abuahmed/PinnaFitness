@@ -1,0 +1,389 @@
+﻿<Window x:Class="PinnaFit.WPF.Views.Assessments"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        xmlns:local="clr-namespace:PinnaFit.Core.Extensions;assembly=PinnaFit.Core"
+        xmlns:model="clr-namespace:PinnaFit.Core.Enumerations;assembly=PinnaFit.Core"
+        mc:Ignorable="d"
+        Title="የአባላት አሴስመንት ፎርም" Height="500" Width="800" 
+        WindowStartupLocation="CenterScreen" Margin="0,0,0,0" ResizeMode="CanResize"
+        DataContext="{Binding MemberAssessment, Source={StaticResource Locator}}" WindowState="Maximized"
+        Background="Transparent" WindowStyle="ThreeDBorderWindow" Closing="MemberAssessments_OnClosing"
+        Icon="/PinnaFit.WPF;component/Resources/AppIcon.ico" Loaded="Window_Loaded">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/MainSkin.xaml" />
+                <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/ControlsDictionary.xaml" />
+                <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/ListViewDictionary.xaml" />
+                <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/ListBoxDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
+    </Window.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Border Style="{StaticResource mainBorder}" CornerRadius="0" 
+                TextBlock.FontFamily="Bookman old style" TextBlock.Foreground="White">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Margin="5,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <telerik:RadAutoCompleteBox x:Name="LstItemsAutoCompleteBox" Grid.Row="0" Grid.Column="0" 
+                                                                ItemsSource="{Binding Members, Mode=TwoWay}"
+                                                                SelectedItem="{Binding SelectedMember, Mode=TwoWay}" Margin="0,5,0,5" 
+                                                                HorizontalAlignment="Stretch" InputLanguageManager.InputLanguage="en-US"
+                                                                VerticalAlignment="Center"
+                                                                WatermarkContent="አባል ፈልግ..."
+                                                                ToolTip="Search Member by Number/Name/Mobile"
+											                    TextSearchMode="Contains"
+											                    AutoCompleteMode="Suggest"
+											                    SelectionMode="Single"
+											                    TextSearchPath="MemberDetail"											                
+											                    BorderBrush="#FF25A0DA" 
+                                                                BorderThickness="1" 
+                                                                SelectionChanged="LstItemsAutoCompleteBox_SelectionChanged" 
+                                                                GotFocus="LstItemsAutoCompleteBox_GotFocus" 
+                                                                GotKeyboardFocus="LstItemsAutoCompleteBox_GotKeyboardFocus"/>
+                    
+                    <ProgressBar Grid.Row="0" Height="25" Background="White" Width="Auto" Grid.Column="1"
+                                     Visibility="{Binding ProgressBarVisibility}" Margin="5"
+                                     IsIndeterminate="True" />
+                </Grid>
+                
+                <Grid Grid.Row="1">
+
+                    <Grid Margin="2,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="2"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+                        <ListView x:Name="ListViewMembers" Grid.Row="0" Grid.Column="0"
+                                  ItemContainerStyle="{StaticResource GridViewItem}" 
+                                  SelectedItem="{Binding SelectedMember}"  Visibility="Collapsed"                          
+                                  ItemsSource="{Binding MemberListWithAssessment}">
+                            <ListView.View>
+                                <GridView AllowsColumnReorder="true" ColumnHeaderContainerStyle="{StaticResource GridViewHeader}">
+                                    <GridViewColumn Header="ቁጥር" DisplayMemberBinding="{Binding Number}"  Width="auto"/>
+                                    <GridViewColumn Header="ስም" DisplayMemberBinding="{Binding DisplayName}"  Width="auto"/>
+                                    <GridViewColumn Header="ጾታ" DisplayMemberBinding="{Binding SexAmharic}" Width="auto"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        
+                        <Expander Grid.Row="1" Margin="5" Header="አባል መረጃ" 
+                                  IsExpanded="True" TextBlock.Foreground="White">
+                            <Grid HorizontalAlignment="Stretch">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="35"/>
+                                    <RowDefinition Height="35"/>
+                                    <RowDefinition Height="35"/>
+                                    <RowDefinition Height="35"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                               
+
+                                <TextBox Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="3"
+                                         Text="{ Binding SelectedMember.LastSubscription.FacilitySubscription.PackageName}" 
+                                         VerticalContentAlignment="Center"
+                                         Margin="5,5" FontWeight="Bold" IsEnabled="False"/>
+                                
+                                <StackPanel Grid.Row="1" Grid.Column="4" Grid.RowSpan="3"  
+                                                Orientation="Vertical">
+                                    <ListBox Margin="0" x:Name="LstMemberAddress"  
+                                                 HorizontalAlignment="Stretch" 
+                                                 VerticalContentAlignment="Center"
+                                                 Visibility="Visible" 
+                                                 Background="Transparent" Focusable="False"
+                                                 BorderBrush="Transparent"
+                                                 MinHeight="80" MinWidth="50" 
+                                                 ItemsSource="{Binding MemberAdressDetail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 ItemTemplate="{DynamicResource AddressBoxDataTemplate}"
+                                                 Style="{StaticResource myListboxStyle}"/>
+
+                                    <Button x:Name="BtnAddress" Margin="5,0" IsEnabled="True"
+                                            Content=" _አድራሻ" Tag="MemberAddress" 
+                                            Command="{Binding MemberAddressViewCommand}" />
+                                </StackPanel>
+                                
+                                <StackPanel Grid.Row="1" Grid.Column="5" Grid.RowSpan="3"  
+                                                Orientation="Vertical">
+                                    <ListBox Margin="0" x:Name="LstContact"  
+                                                 HorizontalAlignment="Stretch" 
+                                                 VerticalContentAlignment="Center"
+                                                 Visibility="Visible" 
+                                                 Background="Transparent" Focusable="False"
+                                                 BorderBrush="Transparent"
+                                                 MinHeight="80" MinWidth="50" 
+                                                 ItemsSource="{Binding MemberContactPersonDetail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 ItemTemplate="{DynamicResource ContactPersonBoxDataTemplate}"
+                                                 Style="{StaticResource myListboxStyle}"/>
+
+                                    <Button x:Name="BtnContactAddress" Margin="5,0" IsEnabled="True"
+                                            Content=" የአደጋ ጊዜ ተጠሪ" Tag="ContactAddress" 
+                                            Command="{Binding MemberContactPersonViewCommand}" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="1" Grid.Column="6"  Grid.RowSpan="3"
+                                                Orientation="Vertical">
+                                    <ListBox Margin="0" x:Name="LstAssessmentDetail"  
+                                                 HorizontalAlignment="Stretch" 
+                                                 VerticalContentAlignment="Center"
+                                                 Visibility="Visible" 
+                                                 Background="Transparent" Focusable="False"
+                                                 BorderBrush="Transparent"
+                                                 MinHeight="80" MinWidth="50" 
+                                                 ItemsSource="{Binding MemberAssessmentMoreDetail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 ItemTemplate="{DynamicResource MemberAssessmentBoxDataTemplate}"
+                                                 Style="{StaticResource myListboxStyle}"/>
+
+                                    <Button x:Name="BtnAssessmentDetail" Margin="5,0" IsEnabled="True"
+                                            Content="ተጨማሪ አሴስመንት" Tag="AssessmentDetail" 
+                                            Command="{Binding MemberAssessmentMoreViewCommand}" />
+                                </StackPanel>
+                                <Grid Grid.Column="7" Grid.Row="0" Grid.RowSpan="4">
+                                    <Grid Margin="5">
+                                        <StackPanel Margin="0,0,0,0">
+                                            <DockPanel LastChildFill="True" Background="#Fffe6700">
+                                                <Image  Name="ImgbtnEmployeeShortImage" HorizontalAlignment="Stretch"
+                                                        Height="130" 
+                                                        DockPanel.Dock="Top"
+                                                        Source="{Binding EmployeeShortImage}" 
+                                                        Stretch="Fill"/>
+                                            </DockPanel>
+                                        </StackPanel>
+
+                                    </Grid>
+                                </Grid>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0"  Text="ስም: " Style="{StaticResource textBlockStyle1}" Margin="0"/>
+                                <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{ Binding SelectedMember.DisplayName}" VerticalContentAlignment="Center"
+                                         Margin="0,5" FontWeight="Bold" IsEnabled="False"/>
+                                
+                                <TextBlock Grid.Row="1" Grid.Column="0"  Text="መታወቂያ ቁ: " Style="{StaticResource textBlockStyle1}" Margin="0"/>
+                                <TextBox Grid.Row="1" Grid.Column="1" Text="{ Binding SelectedMember.Number}" VerticalContentAlignment="Center"
+                                         Margin="0,5" FontWeight="Bold" IsEnabled="False"/>
+                                
+                                <TextBlock Grid.Row="1" Grid.Column="2"  Text="ጾታ: " Style="{StaticResource textBlockStyle1}" Margin="5,0,0,0"/>
+                                <TextBox Grid.Row="1" Grid.Column="3" Text="{ Binding SelectedMember.SexAmharic}" VerticalContentAlignment="Center"
+                                         Margin="0,5" FontWeight="Bold" IsEnabled="False"/>
+                               
+                                <TextBlock Grid.Column="0" Grid.Row="2" Text="የልደት ዘመን:" VerticalAlignment="Center" />
+                                <Grid Grid.Column="1" Grid.Row="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Margin="0,5" IsEnabled="False" Text="{Binding BirthDateText}"
+                                     VerticalContentAlignment="Center"
+                                     x:Name="TxtStartDateDate" FontWeight="Bold" Visibility="Visible" />
+                                    <Button Grid.Column="1" x:Name="BtnStartDate" Margin="5"
+                                    Command="{Binding BirthDateViewCommand}" HorizontalAlignment="Right"
+                                    ToolTip="View/Change Start Date" Tag="StartDate">
+                                        <Image Source="../Resources/Images/document_edit.png" Stretch="Uniform" Height="20" />
+                                    </Button>
+                                </Grid>
+                                <!--<StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" >
+                                    <DatePicker  x:Name="DtBirthDate" Width="auto"  VerticalAlignment="Center"                                 
+									        Text="{Binding SelectedMember.DateOfBirth, Mode=TwoWay}" 
+									        SelectedDateChanged="dtBirthDate_SelectedDateChanged"/>
+                                    <TextBlock VerticalAlignment="Center" x:Name="LblEcText" Text="{Binding SelectedMember.BirthDateEc}" 
+                                                   Margin="5,0,0,0"/>
+                                    <TextBox VerticalAlignment="Center" x:Name="LblAge" IsEnabled="False"
+                                                 Text="{Binding SelectedMember.AgeFromBirthDate,Mode=TwoWay}" 
+                                                   FontWeight="Bold" Margin="2,0,0,0" Width="30"/>
+                                </StackPanel>-->
+
+                                <TextBlock Grid.Row="2" Grid.Column="2"  Text="ዕድሜ: " Style="{StaticResource textBlockStyle1}" Margin="5,0,0,0" IsEnabled="False"/>
+                                <TextBox Grid.Row="2" Grid.Column="3" Text="{ Binding SelectedMember.AgeFromBirthDate}" Margin="0,5" VerticalContentAlignment="Center"
+                                         FontWeight="Bold" IsEnabled="False"/>
+
+
+                                <TextBlock Grid.Row="3" Grid.Column="0"  Text="የጋብቻ ሁኔታ: " Style="{StaticResource textBlockStyle1}" Margin="0"/>
+                                <ComboBox Grid.Row="3" Grid.Column="1"  x:Name="CmbSex"  Margin="0,2" SelectedIndex="0"
+									            SelectedValue="{Binding SelectedMember.MaritalStatus, Mode=TwoWay}" VerticalContentAlignment="Center"
+									            ItemsSource="{Binding Mode=OneWay, Source={local:Enumeration {x:Type model:MaritalStatusTypes}}}" 
+									            Validation.ErrorTemplate="{x:Null}" 
+									            DisplayMemberPath="Description" 
+									            SelectedValuePath="Value"/>
+                                
+                                <TextBlock Grid.Row="3" Grid.Column="2"  Text="ሙያ: " Style="{StaticResource textBlockStyle1}" Margin="5,0,0,0"/>
+                                <TextBox Grid.Row="3" Grid.Column="3" Text="{ Binding SelectedMember.Occupation}" VerticalContentAlignment="Center"
+                                         Margin="0,5" FontWeight="Bold" IsEnabled="True"/>
+
+
+                            </Grid>
+                        </Expander>
+
+                        <Expander Grid.Row="2" Margin="5,0" Header="አሴስመንት ዝርዝር" 
+                                  IsExpanded="True" TextBlock.Foreground="White">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="5"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                               
+                                <ListView x:Name="ListView" Grid.Row="0" Grid.Column="1" Grid.RowSpan="3"
+                                  ItemContainerStyle="{StaticResource GridViewItem}" 
+                                  SelectedItem="{Binding SelectedMemberAssessment}"                            
+                                  ItemsSource="{Binding MemberAssessments}">
+                                    <ListView.View>
+                                        <GridView AllowsColumnReorder="true" ColumnHeaderContainerStyle="{StaticResource GridViewHeader}">
+                                            <GridViewColumn Header="ቀን" DisplayMemberBinding="{Binding AssessmentTimeStringAndAmharic}"  Width="auto"/>
+                                            <GridViewColumn Header="ክብደት" DisplayMemberBinding="{Binding Weight}"  Width="auto"/>
+                                            <GridViewColumn Header="ስብ" DisplayMemberBinding="{Binding Fat}" Width="auto"/>
+                                            <GridViewColumn Header="ቦ.ማ.ኢንዴክስ" DisplayMemberBinding="{Binding Bmi,StringFormat=N2}"  Width="auto"/>
+                                            <GridViewColumn Header="የደም ግፊት" DisplayMemberBinding="{Binding Bp}" Width="auto"/>
+                                            <GridViewColumn Header="የሰራው" DisplayMemberBinding="{Binding CreatedByUser.UserName}" Width="70"/>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                                
+                                <Grid Grid.Row="0" Grid.Column="2" Margin="5" Grid.RowSpan="3">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="የተሰራበት ቀን:" VerticalAlignment="Center"/>
+                                    <telerik:RadDatePicker   Grid.Column="1" Grid.Row="0" x:Name="DtAssessmentDate" Visibility="Hidden"                                       
+									                            ToolTip="{Binding (Validation.Errors)[0].ErrorContent, ElementName=DtAssessmentDate}" 
+									                            SelectedValue="{Binding SelectedMemberAssessment.AssessmentTime, Mode=TwoWay, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+									                            Validation.Error="Validation_Error"
+									                            VerticalAlignment="Center"/>
+                                    <Grid Grid.Column="1" Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Margin="0,5" IsEnabled="False" Text="{Binding AssessmentDateText}"
+                                                 VerticalContentAlignment="Center"
+                                                 x:Name="TxtAssessmentDate" FontWeight="Bold" Visibility="Visible" />
+                                        <Button Grid.Column="1" x:Name="BtnAssessmentDate" Margin="5"
+                                                Command="{Binding AssessmentDateViewCommand}" HorizontalAlignment="Right"
+                                                ToolTip="View/Change Assessment Date" Tag="AssessmentDate">
+                                            <Image Source="../Resources/Images/document_edit.png" Stretch="Uniform" Height="20" />
+                                        </Button>
+                                    </Grid>
+
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="ክብደት(Weight):" VerticalAlignment="Center"/>
+                                    <TextBox x:Name="TxtWeight" Grid.Row="1" Grid.Column="1" IsEnabled="True" FontWeight="Bold"
+                                             ToolTip="{Binding (Validation.Errors)[0].ErrorContent, ElementName=TxtWeight}"
+                                             Text="{Binding SelectedMemberAssessment.Weight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}" 
+                                             Validation.Error="Validation_Error" Margin="0,5,0,5" />
+                               
+
+                                    <TextBlock Grid.Row="1" Grid.Column="2" Text=" ቁመት(Height):" VerticalAlignment="Center"/>
+                                    <TextBox x:Name="TxtHeight" Grid.Row="1" Grid.Column="3" IsEnabled="True" FontWeight="Bold"
+                                             ToolTip="{Binding (Validation.Errors)[0].ErrorContent, ElementName=TxtWeight}"
+                                             Text="{Binding SelectedMemberAssessment.Height, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}" 
+                                             Validation.Error="Validation_Error" Margin="0,5,0,5" />
+                                    
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="ቦ.ማ.ኢንዴክስ(BMI):" VerticalAlignment="Center"/>
+                                    <TextBox x:Name="TxtBmi" Grid.Row="2" Grid.Column="1" IsEnabled="False" FontWeight="Bold"
+                                             ToolTip="{Binding (Validation.Errors)[0].ErrorContent, ElementName=TxtWeight}"
+                                             Text="{Binding SelectedMemberAssessment.Bmi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True,StringFormat=N2}" 
+                                             Validation.Error="Validation_Error" Margin="0,5,0,5" />
+                                    
+                                    <TextBlock Grid.Row="2" Grid.Column="2" Text=" ስብ/ቅባት(Fat):" VerticalAlignment="Center"/>
+                                    <TextBox x:Name="TxtFat" Grid.Row="2" Grid.Column="3" IsEnabled="True" FontWeight="Bold"
+                                             ToolTip="{Binding (Validation.Errors)[0].ErrorContent, ElementName=TxtWeight}"
+                                             Text="{Binding SelectedMemberAssessment.Fat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}" 
+                                             Validation.Error="Validation_Error" Margin="0,5,0,5" />
+                                    
+                                    <TextBlock Grid.Row="3" Grid.Column="0" Text="የደም ግፊት(BP):" VerticalAlignment="Center"/>
+                                    <TextBox x:Name="TxtBp" Grid.Row="3" Grid.Column="1" IsEnabled="True" FontWeight="Bold"
+                                             ToolTip="{Binding (Validation.Errors)[0].ErrorContent, ElementName=TxtWeight}"
+                                             Text="{Binding SelectedMemberAssessment.Bp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}" 
+                                             Validation.Error="Validation_Error" Margin="0,5,0,5" />
+                                    
+                                    <TextBlock Grid.Row="4" Grid.Column="0" Text="ተጨማሪ:" VerticalAlignment="Center"/>
+                                    <TextBox x:Name="TxtNotes" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" IsEnabled="True"
+                                             ToolTip="{Binding (Validation.Errors)[0].ErrorContent, ElementName=TxtWeight}"
+                                             Text="{Binding SelectedMemberAssessment.Notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}" 
+                                             Validation.Error="Validation_Error" Margin="0,5,0,5" />
+                                </Grid>
+
+                            </Grid>
+                        </Expander>
+                   
+                        
+                         <GridSplitter Grid.Row="4" HorizontalAlignment="Stretch" />
+                        <!--Bottom Buttons Begin-->
+                        <StackPanel Orientation="Horizontal" Grid.Row="5" Background="Transparent" HorizontalAlignment="Right">
+
+                            <Button Tag="Add New" x:Name="BtnAddNew"
+                                    Command="{Binding AddNewMemberAssessmentViewCommand}" Click="BtnAddNew_OnClick"
+                                    CommandParameter="{Binding ElementName=BtnAddNew}"                                     
+                                    Style="{StaticResource bottomButtons}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="../Resources/Images/add.png" Height="30" Width="30" Stretch="Uniform" />
+                                    <TextBlock VerticalAlignment="Center"> አዲስ ፍጠር</TextBlock>
+                                </StackPanel>
+                            </Button>
+
+                            <Button Tag="Save" x:Name="BtnSave"
+                                    Command="{Binding SaveMemberAssessmentViewCommand}" 
+                                    CommandParameter="{Binding ElementName=BtnSave}" 
+                                    Style="{StaticResource bottomButtons}" >
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="../Resources/Images/disk_blue.png" Height="30" Width="30" Stretch="Uniform" />
+                                    <TextBlock VerticalAlignment="Center"> አስቀምጥ</TextBlock>
+                                </StackPanel>
+                            </Button>
+
+                            <Button Tag="Delete" x:Name="BtnDelete"
+                                    Command="{Binding DeleteMemberAssessmentViewCommand}" 
+                                    CommandParameter="{Binding ElementName=BtnDelete}"                                     
+                                    Style="{StaticResource bottomButtons}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="../Resources/Images/delete.png" Height="30" Width="30" Stretch="Uniform" />
+                                    <TextBlock VerticalAlignment="Center"> አጥፋ</TextBlock>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

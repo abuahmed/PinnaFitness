@@ -1,0 +1,274 @@
+﻿<Window x:Class="PinnaFit.WPF.Views.TimeTables"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        mc:Ignorable="d"
+        Title="{Binding TimeTableText}" Height="500" Width="700" 
+        WindowStartupLocation="CenterScreen" Margin="0,0,0,0" ResizeMode="NoResize"
+        DataContext="{Binding TimeTable, Source={StaticResource Locator}}" WindowState="Normal"
+        Background="Transparent" WindowStyle="ThreeDBorderWindow" Closing="TimeTables_OnClosing"
+        Icon="/PinnaFit.WPF;component/Resources/AppIcon.ico" Loaded="Window_Loaded">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/MainSkin.xaml" />
+                <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/ControlsDictionary.xaml" />
+                <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/ListViewDictionary.xaml" />
+                <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/ListBoxDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
+    </Window.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Border Style="{StaticResource mainBorder}" CornerRadius="0" 
+                TextBlock.FontFamily="Bookman old style" TextBlock.Foreground="White">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <!--Header Begin-->
+
+                <StackPanel Grid.Row="1" Margin="5,0"
+                            Orientation="Horizontal"  HorizontalAlignment="Right"
+                            Background="Transparent">
+                    <!--<telerik:RadAutoCompleteBox x:Name="LstDeliverysNumberAutoCompleteBox" 
+                		ItemsSource="{Binding ServiceList, Mode=TwoWay}" 
+                		Width="340"
+                		SelectedItem="{Binding SelectedServiceForFilter, Mode=TwoWay}" Margin="5,5,0,5" 
+                		HorizontalAlignment="Stretch" 
+                		VerticalAlignment="Center"
+                		WatermarkContent="Search Class..."
+                		ToolTip="Search Member by Name"
+                		TextSearchMode="Contains"
+                		AutoCompleteMode="Suggest"
+                		SelectionMode="Single"
+                		TextSearchPath="DisplayName"											                
+                		BorderBrush="#FF25A0DA" 
+                		BorderThickness="1"/>
+                    <TextBlock  Text="Sex: " Style="{StaticResource textBlockStyle1}" Margin="5,0,0,0"/>
+                    <TextBlock  Text="{ Binding SelectedFacility.Sex}" Width="50" Style="{StaticResource textBlockStyle1}" FontWeight="Bold"/>
+                    <TextBlock  Text="Age: " Style="{StaticResource textBlockStyle1}" Margin="5,0,0,0"/>
+                    <TextBlock  Text="{ Binding SelectedFacility.Age}" Width="50" Style="{StaticResource textBlockStyle1}" FontWeight="Bold" />
+                    <TextBlock  Text="Search " 
+                            Style="{StaticResource textBlockStyle1}"/>
+
+                    <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" 
+                             Style="{StaticResource searchTextBox}" Margin="10,0" />-->
+                </StackPanel>
+                <!--Header End-->
+
+
+                <Grid Grid.Row="2">
+
+                    <Grid Margin="2,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="2"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+
+                        <ListView x:Name="ListView" Grid.Row="1"
+                                  ItemContainerStyle="{StaticResource GridViewItem}" 
+                                  SelectedItem="{Binding SelectedTimeTable}"                            
+                                  ItemsSource="{Binding TimeTables}">
+                            <ListView.View>
+                                <GridView AllowsColumnReorder="true" ColumnHeaderContainerStyle="{StaticResource GridViewHeader}">
+                                    <GridViewColumn Header="Training" DisplayMemberBinding="{Binding Service.DisplayName}"  Width="120"/>
+                                    <GridViewColumn Header="Days Held" DisplayMemberBinding="{Binding DaysHeld}"  Width="auto"/>
+                                    <GridViewColumn Header="Starts" DisplayMemberBinding="{Binding ClassBegins}" Width="70"/>
+                                    <GridViewColumn Header="Ends" DisplayMemberBinding="{Binding ClassEnds}"  Width="70"/>
+                                    <GridViewColumn Header="Notes" DisplayMemberBinding="{Binding Notes}"  Width="100"/>
+                                    </GridView>
+                            </ListView.View>
+                        </ListView>
+
+                        <Expander Grid.Row="2" Margin="5,0" Header="Detail" 
+                                  IsExpanded="True" TextBlock.Foreground="White">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid Grid.Column="0" Margin="5">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                    </Grid.RowDefinitions>
+                                    
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text=" Service:" VerticalAlignment="Center"/>
+                                    <ComboBox   Grid.Column="1" Grid.Row="0" Margin="0"
+                                        x:Name="CmbFacilitySubscriptionTypeList"                                           
+                                        ItemsSource="{Binding Services, Mode= OneWay}"
+                                        SelectedItem="{Binding SelectedService}"
+                                        DisplayMemberPath="DisplayName"
+                                        Style="{StaticResource comboBoxStyle1}"/>
+                                    
+
+                                    <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" TextBlock.FontFamily="Bookman old style">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                           
+                                        </Grid.ColumnDefinitions>
+
+                                        <CheckBox Grid.Column="0" Content="Monday" Margin="5,0" Foreground="White"
+                                                  IsChecked="{Binding SelectedTimeTable.OnMonday, Mode=TwoWay}" 
+                                                  VerticalAlignment="center" FontSize="14"  Background="Transparent"/>
+                                        <CheckBox Grid.Column="1" Content="Tuesday"  Margin="5,0" Foreground="White"
+                                                  IsChecked="{Binding SelectedTimeTable.OnTuesday, Mode=TwoWay}" 
+                                                  VerticalAlignment="center" FontSize="14"  Background="Transparent"/>
+                                        <CheckBox Grid.Column="2" Content="Wednesday" Margin="5,0" Foreground="White"
+                                                  IsChecked="{Binding SelectedTimeTable.OnWednesday, Mode=TwoWay}" 
+                                                  VerticalAlignment="center" FontSize="14"  Background="Transparent"/>
+                                        <CheckBox Grid.Column="3" Content="Thursday" Margin="5,0" Foreground="White"
+                                                  IsChecked="{Binding SelectedTimeTable.OnThursday, Mode=TwoWay}" 
+                                                  VerticalAlignment="center" FontSize="14"  Background="Transparent"/>
+                                        
+                                    </Grid>
+                                    
+                                    <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" TextBlock.FontFamily="Bookman old style">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <CheckBox Grid.Column="0" Content="Friday"  Margin="5,0" Foreground="White"
+                                                  IsChecked="{Binding SelectedTimeTable.OnFriday, Mode=TwoWay}" 
+                                                  VerticalAlignment="center" FontSize="14"  Background="Transparent"/>
+                                        <CheckBox Grid.Column="1" Content="Saturday" Margin="5,0" Foreground="White"
+                                                  IsChecked="{Binding SelectedTimeTable.OnSaturday, Mode=TwoWay}" 
+                                                  VerticalAlignment="center" FontSize="14"  Background="Transparent"/>
+                                        <CheckBox Grid.Column="2" Content="Sunday"  Margin="5,0" Foreground="White"
+                                                  IsChecked="{Binding SelectedTimeTable.OnSunday, Mode=TwoWay}" 
+                                                  VerticalAlignment="center" FontSize="14"  Background="Transparent"/>
+                                    </Grid>
+                                    <TextBlock Grid.Row="3" Grid.Column="0" Text=" Begin:" VerticalAlignment="Center"/>
+                                    <telerik:RadTimePicker   Grid.Column="1" Grid.Row="3" x:Name="DtBegin"                                        
+									                            ToolTip="{Binding (Validation.Errors)[0].ErrorContent, ElementName=DtAssessmentDate}" 
+									                            SelectedValue="{Binding ClassBegins, Mode=TwoWay, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+									                            Validation.Error="Validation_Error"
+									                            VerticalAlignment="Center"/>
+                                    
+                                    <TextBlock Grid.Row="3" Grid.Column="2" Text=" End:" VerticalAlignment="Center"/>
+                                    <telerik:RadTimePicker   Grid.Column="3" Grid.Row="3" x:Name="DtEnd"                                        
+									                            ToolTip="{Binding (Validation.Errors)[0].ErrorContent, ElementName=DtAssessmentDate}" 
+									                            SelectedValue="{Binding ClassEnds, Mode=TwoWay, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+									                            Validation.Error="Validation_Error"
+									                            VerticalAlignment="Center"/>
+                                   
+                                    
+                                    <TextBlock Grid.Row="4" Grid.Column="0" Text=" Notes:" VerticalAlignment="Center"/>
+                                    <TextBox x:Name="TxtNotes" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" IsEnabled="True"
+                                             ToolTip="{Binding (Validation.Errors)[0].ErrorContent, ElementName=TxtWeight}"
+                                             Text="{Binding SelectedTimeTable.Notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,NotifyOnValidationError=True}" 
+                                             Validation.Error="Validation_Error" Margin="0,5,0,5" />
+                                </Grid>
+                                <Grid Grid.Column="2" Margin="5,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <!--<ColumnDefinition Width="auto"/>-->
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="auto"/>
+                                        <!--<ColumnDefinition/>-->
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"  VerticalAlignment="Top">
+                                        <TextBlock Text="Trainers/Staffs"  FontWeight="Bold"  />
+                                        <Separator Background="White"/>
+                                    </StackPanel>
+
+                                    <ListBox    Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,0" 
+									    x:Name="LstUserTrainers" Foreground="Black"
+                                        Background="Transparent" MinHeight="100"
+									    BorderBrush="Transparent" IsTextSearchEnabled="True"
+                                        SelectedItem="{Binding SelectedTrainer}"
+									    ItemsSource="{Binding SelectedTrainers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        ItemTemplate="{DynamicResource FacilityServiceBoxDataTemplate}">
+                                    </ListBox>
+
+                                    <ComboBox x:Name="CmbTypeOfTrainer" Grid.Column="0" Grid.Row="4" Margin="0,0,5,0" 
+                                      ItemsSource="{Binding FilteredTrainers,Mode=OneWay}"
+                                      SelectedItem="{Binding SelectedTrainerToAdd}" 
+                                      DisplayMemberPath="DisplayName"
+                                      Background="Transparent"/>
+
+                                    <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <Button Content="Add"   Width="50"
+                                     Command="{Binding AddTrainerViewCommand}" IsEnabled="{Binding AddTrainerEnability}"/>
+                                        <Button Content="Remove"  Width="55"
+                                     Command="{Binding RemoveTrainerViewCommand}" IsEnabled="{Binding RemoveTrainerEnability}"/>
+                                    </StackPanel>
+
+                                    <CheckBox Grid.Column="0" Grid.Row="5" Background="Transparent" Grid.ColumnSpan="2"
+                                      IsChecked="{Binding AllTrainersChecked}"
+                                      Content="Assign All"/>
+                                </Grid>
+                            </Grid>
+                        </Expander>
+
+                       
+                        
+                         <GridSplitter Grid.Row="4" HorizontalAlignment="Stretch" />
+                        <!--Bottom Buttons Begin-->
+                        <StackPanel Orientation="Horizontal" Grid.Row="5" Background="Transparent" HorizontalAlignment="Right">
+
+                            <!--<Button Content="_View Credits" Tag="ViewCredit" x:Name="BtnViewCredit"
+                                    Command="{Binding ViewCreditCommand}" 
+                                    Visibility="{Binding ViewCreditsVisibility,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                    CommandParameter="{Binding ElementName=BtnViewCredit}"                                     
+                                    Style="{StaticResource bottomButtons}"/>-->
+
+                            <Button Content="_Add New" Tag="Add New" x:Name="BtnAddNew"
+                                    Command="{Binding AddNewTimeTableViewCommand}" Click="BtnAddNew_OnClick"
+                                    CommandParameter="{Binding ElementName=BtnAddNew}"                                     
+                                    Style="{StaticResource bottomButtons}"/>
+
+                            <Button Content="_Save" Tag="Save" x:Name="BtnSave"
+                                    Command="{Binding SaveTimeTableViewCommand}" 
+                                    CommandParameter="{Binding ElementName=BtnSave}" 
+                                    Style="{StaticResource bottomButtons}" />
+
+                            <Button Content="_Delete" Tag="Delete" x:Name="BtnDelete"
+                                    Command="{Binding DeleteTimeTableViewCommand}" 
+                                    CommandParameter="{Binding ElementName=BtnDelete}"                                     
+                                    Style="{StaticResource bottomButtons}"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

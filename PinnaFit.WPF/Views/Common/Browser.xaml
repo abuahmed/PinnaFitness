@@ -1,0 +1,79 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Unloaded="Browser_OnUnloaded"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" 
+        x:Class="PinnaFit.WPF.Views.Browser"    
+        Title="Cash Register Website" Width="940" Height="550" MinWidth="550" MinHeight="550" 
+        WindowState="Maximized" Icon="/PinnaFit.WPF;component/Resources/AppIcon.ico"  FontSize="13.333" 
+        FontFamily="./#Bookman Old Style" Loaded="Window_Loaded">
+    
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/MainSkin.xaml" />
+                <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/ControlsDictionary.xaml" />
+                <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/ListBoxDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Window.DataContext>
+        <Binding Path="Browser" Source="{StaticResource Locator}"/>
+    </Window.DataContext>
+
+    <Grid>
+        <Border Style="{StaticResource mainBorder}" CornerRadius="0">
+            <Grid TextBlock.Foreground="White" TextBlock.FontFamily="Bookman old style">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Margin="5,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <!--<RowDefinition/>-->
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+          
+
+                    <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="TxtenjazUrl"
+						Margin="5,5"
+						Text="http://" 
+						FontSize="16"
+						FontWeight="Normal"
+						VerticalContentAlignment="Center"/>
+                    <Button Grid.Row="0" Grid.Column="2" Content="GO" x:Name="BtnGo" Width="50" Margin="5,5" Click="btnGo_Click"/>
+                    <Button Grid.Row="0" Grid.Column="3" Content="Prev" x:Name="BtnPrev" Width="50" Margin="5,5" Click="btnPrev_Click"/>
+                    <Button Grid.Row="0" Grid.Column="4" Content="Next" x:Name="BtnNext" Width="50" Margin="5,5" Click="btnNext_Click"/>
+                    <Button Grid.Row="0" Grid.Column="5" Content="Print" x:Name="BtnPrint" Width="50" Margin="5,5" Click="btnPrint_Click"/>
+                    <Button Grid.Row="0" Grid.Column="6" Content="Z+" x:Name="BtnZOut" Width="50" Margin="5,5" Click="btnZOut_Click"/>
+                    <Button Grid.Row="0" Grid.Column="7" Content="Z-" x:Name="BtnZIn" Width="50" Margin="5,5" Click="btnZIn_Click"/>
+                   
+                </Grid>
+
+
+                <WebBrowser Grid.Row="1" x:Name="BrwEnjaz"
+					HorizontalAlignment="Stretch"                             
+					Margin="5"  
+					VerticalAlignment="Stretch" 
+                            />
+
+
+
+
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

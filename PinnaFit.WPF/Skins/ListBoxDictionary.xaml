@@ -1,0 +1,363 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/PinnaFit.WPF;component/Skins/MainSkin.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <DataTemplate x:Key="FacilityServiceBoxDataTemplate" >
+        <Grid>
+            <Border>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Margin="0,1" 
+                                TextBlock.Foreground="Black" 
+                                TextBlock.FontWeight="Normal" 
+                                TextBlock.FontFamily="Bookman Old Style">
+                        <StackPanel Orientation="Horizontal"  >
+                            <TextBlock FontSize="12" Text="{Binding DisplayName}" />
+                        </StackPanel>
+                        <!--<CheckBox Content="Is Enabled" Checked="{Binding Enabled}"/>-->
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </DataTemplate>
+    
+    <DataTemplate x:Key="UserRoleBoxDataTemplate" >
+        <Grid>
+            <Border>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Margin="0,1" 
+                                TextBlock.Foreground="Black" 
+                                TextBlock.FontWeight="Normal" 
+                                TextBlock.FontFamily="Bookman Old Style">
+                        <StackPanel Orientation="Horizontal"  >
+                            <TextBlock FontSize="12" Text="{Binding RoleDescription}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="AddressBoxDataTemplate" >
+        <Grid>
+            <Border>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Margin="0,1" 
+                                TextBlock.Foreground="Black" 
+                                TextBlock.FontWeight="Normal" 
+                                TextBlock.FontFamily="Bookman Old Style">
+                        <StackPanel Orientation="Vertical"  >
+                            <TextBlock FontSize="12" Text="{Binding AddressDetail}" />
+                            <StackPanel Orientation="Horizontal"  >
+                                <TextBlock FontSize="12" Text="{Binding Mobile}" />
+                                <TextBlock FontSize="12" Text="{Binding AlternateMobile}" Margin="5,0,0,0" />
+                                <TextBlock FontSize="12" Text="{Binding Telephone}" Margin="5,0,0,0"/>
+                            </StackPanel>
+                            <TextBlock FontSize="12" Text="{Binding City}" />
+                            <TextBlock FontSize="12" Text="{Binding Country}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ContactPersonBoxDataTemplate" >
+        <Grid>
+            <Border>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Margin="0,1" 
+                                TextBlock.Foreground="Black" 
+                                TextBlock.FontWeight="Normal" 
+                                TextBlock.FontFamily="Bookman Old Style">
+                        <StackPanel Orientation="Vertical"  >
+                            <TextBlock FontSize="12" Text="{Binding DisplayName}" />
+                            <TextBlock FontSize="12" Text="{Binding Address.AddressDetail}" />
+                            <StackPanel Orientation="Horizontal"  >
+                                <TextBlock FontSize="12" Text="{Binding Address.Mobile}" />
+                                <TextBlock FontSize="12" Text="{Binding Address.AlternateMobile}" Margin="5,0,0,0" />
+                            </StackPanel>
+                            <TextBlock FontSize="12" Text="{Binding Address.City}" />
+                            <TextBlock FontSize="12" Text="{Binding Address.Country}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </DataTemplate>
+ 
+    <DataTemplate x:Key="MemberAssessmentBoxDataTemplate" >
+        <Grid>
+            <Border>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Margin="0,1" 
+                                TextBlock.Foreground="Black" 
+                                TextBlock.FontWeight="Normal" 
+                                TextBlock.FontFamily="Bookman Old Style">
+                        <StackPanel Orientation="Vertical"  >
+                            <TextBlock FontSize="12" Text="{Binding MedicationTaking}" />
+                  
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </DataTemplate>
+    
+    <DataTemplate x:Key="PackageBoxDataTemplate" >
+        <Grid>
+            <Border>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Margin="0,1" 
+                                TextBlock.Foreground="Black" 
+                                TextBlock.FontWeight="Normal" 
+                                TextBlock.FontFamily="Bookman Old Style">
+                        <StackPanel Orientation="Vertical"  >
+                            <StackPanel Orientation="Horizontal"  >
+                                <TextBlock FontSize="12" Text="ያለበት ሁኔታ:" />
+                                <TextBlock FontSize="12" Text="{Binding CurrentStatus}" Margin="5,0,0,0" FontWeight="ExtraBold"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal"  >
+                                <TextBlock FontSize="12" Text="ፓኬጅ:" />
+                                <TextBlock FontSize="12" Text="{Binding FacilitySubscription.PackageName}" FontWeight="ExtraBold" Margin="5,0,0,0"/>
+                                <!--<TextBlock FontSize="12" Text="{Binding FacilitySubscription.Facility.DisplayName}" FontWeight="ExtraBold" Margin="5,0,0,0"/>
+                                <TextBlock FontSize="12" Text=" (" />
+                                <TextBlock FontSize="12" Text="{Binding FacilitySubscription.Subscription.DisplayName}" FontWeight="ExtraBold"/>
+                                <TextBlock FontSize="12" Text=")" />-->
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal"  >
+                                <TextBlock FontSize="12" Text="የተመዘገበበት ቀን:" />
+                                <TextBlock FontSize="12" Text="{Binding SubscribedDateStringAndAmharic}" Margin="5,0,0,0" FontWeight="ExtraBold"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal"  >
+                                <TextBlock FontSize="12" Text="የጀመረበት ቀን:" />
+                                <TextBlock FontSize="12" Text="{Binding StartDateStringAndAmharic}" Margin="5,0,0,0" FontWeight="ExtraBold"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal"  >
+                                <TextBlock FontSize="12" Text="የሚያበቃበት ቀን:" />
+                                <TextBlock FontSize="12" Text="{Binding EndDateStringAndAmharic}" Margin="5,0,0,0" FontWeight="ExtraBold"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal"  >
+                                <TextBlock FontSize="12" Text="           " />
+                                <TextBlock FontSize="12" Text="{Binding Comments}" Margin="5,0,0,0" FontWeight="Normal"/>
+                            </StackPanel>
+                            
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="AddressBoxHorizontalDataTemplate" >
+        <Grid>
+            <Border>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Margin="0,1" 
+                                TextBlock.Foreground="Black" 
+                                TextBlock.FontWeight="Normal" 
+                                TextBlock.FontFamily="Bookman Old Style">
+                        <StackPanel Orientation="Horizontal"  >
+                            <TextBlock FontSize="12" Text="{Binding AddressDetail}" />
+                            <TextBlock FontSize="12" Text="{Binding Mobile}" Margin="5,0,0,0"/>
+                            <TextBlock FontSize="12" Text="{Binding AlternateMobile}" Margin="5,0,0,0" />
+                            <TextBlock FontSize="12" Text="{Binding Telephone}" Margin="5,0,0,0"/>
+                            <TextBlock FontSize="12" Text="{Binding City}" Margin="5,0,0,0"/>
+                            <TextBlock FontSize="12" Text="{Binding Country}" Margin="5,0,0,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="OrderByClientHorizontalDataTemplate" >
+        <Grid>
+            <Border>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Margin="0,1" Orientation="Vertical"
+                                TextBlock.Foreground="Black" 
+                                TextBlock.FontWeight="Bold" 
+                                TextBlock.FontFamily="Bookman Old Style">
+                        <StackPanel Orientation="Horizontal"  >
+                            <TextBlock FontSize="12" Text="{Binding DisplayName}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"  >
+                            <TextBlock FontSize="12" Text="{Binding Address.AddressDetail}" />
+                            <TextBlock FontSize="12" Text="{Binding Address.Mobile}" Margin="5,0,0,0"/>
+                            <TextBlock FontSize="12" Text="{Binding Address.AlternateMobile}" Margin="5,0,0,0" />
+                            <!--<TextBlock FontSize="12" Text="{Binding Address.Telephone}" Margin="5,0,0,0"/>
+                            <TextBlock FontSize="12" Text="{Binding Address.City}" Margin="5,0,0,0"/>
+                            <TextBlock FontSize="12" Text="{Binding Address.Country}" Margin="5,0,0,0"/>-->
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="DeliverysListBoxDataTemplate" >
+        <Grid>
+            <Border Style="{StaticResource mainBorder3}">
+                <Grid TextBlock.Foreground="White" TextBlock.FontFamily="Bookman Old Style">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Column="0" Grid.Row="0" 
+                                       Text="{Binding Number}" FontWeight="Bold" FontSize="14"  />
+                    <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" FontSize="12"  FontWeight="Bold" 
+                                       Text="{Binding OrderByClient.DisplayNameShort,Mode=TwoWay}" Margin="0"/>
+                    <TextBlock Grid.Column="3" Grid.Row="0" 
+                                       Text="{Binding CountLinesString}" FontWeight="Normal" FontSize="12"  Margin="0" Foreground="GreenYellow"/>
+
+                    <TextBlock Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" FontSize="12" 
+                                       Text="{Binding OrderDate}" Foreground="MediumSpringGreen"/>
+
+                    <StackPanel Grid.Column="3" Grid.Row="1" Orientation="Horizontal"  >
+                        <TextBlock FontSize="12" FontWeight="Bold" 
+                                           Text="{Binding Status}" Foreground="MediumSpringGreen" Margin="0"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="OnRequestDeliveryListBoxDataTemplate" >
+        <Grid ToolTip="{Binding Number}">
+            <Border Style="{StaticResource followUpBorder}">
+                <Grid TextBlock.Foreground="White" TextBlock.FontFamily="Bookman Old Style">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Column="0" Grid.Row="0" 
+                                       Text="{Binding Number}" FontWeight="Bold" FontSize="12"  />
+                    <TextBlock Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"  FontSize="12"  FontWeight="Bold" 
+                                       Text="{Binding OrderByClient.DisplayNameShort,Mode=TwoWay}" Margin="0"/>
+                    <TextBlock Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" FontSize="12" 
+                                       Text="{Binding OrderDate}" Foreground="MediumSpringGreen"/>
+                    <TextBlock Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" FontSize="12" 
+                                       Text="{Binding CountLinesString}" Foreground="GreenYellow"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="OnAcceptanceDeliveryListBoxDataTemplate" >
+        <Grid ToolTip="{Binding Number}">
+            <Border Style="{StaticResource followUpBorder}">
+                <Grid TextBlock.Foreground="White" TextBlock.FontFamily="Bookman Old Style">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Column="0" Grid.Row="0" 
+                                       Text="{Binding Number}" FontWeight="Bold" FontSize="12"  />
+                    <TextBlock Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"  FontSize="12"  FontWeight="Bold" 
+                                       Text="{Binding OrderByClient.DisplayNameShort,Mode=TwoWay}" Margin="0"/>
+                    <TextBlock Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" FontSize="12" 
+                                       Text="{Binding OrderDate}" Foreground="MediumSpringGreen"/>
+                    <TextBlock Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" FontSize="12" 
+                                       Text="{Binding CountLinesString}" Foreground="GreenYellow"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="DeliveryLinesListBoxDataTemplate" >
+        <Grid>
+            <Border Style="{StaticResource followUpBorder}">
+                <Grid TextBlock.Foreground="White" TextBlock.FontFamily="Bookman Old Style">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Column="0" Grid.Row="0" FontSize="12" 
+                                       Text="{Binding DeliveryHeader.Number}" Foreground="White"/>
+                    <TextBlock Grid.Column="1" Grid.Row="0" FontSize="12" Margin="3,0"
+                                       Text="{Binding Number}" Foreground="White"/>
+                    <TextBlock Grid.Column="0" Grid.Row="1" FontSize="12"  FontWeight="Bold" Foreground="GreenYellow"
+                                       Text="{Binding DeliveryHeader.OrderByClient.DisplayNameShort,Mode=TwoWay}" Margin="0"/>
+                    <TextBlock Grid.Column="1" Grid.Row="1" FontSize="12"  FontWeight="Bold" Foreground="GreenYellow"
+                                       Text="{Binding DeliveryHeader.OrderByClient.Address.Mobile,Mode=TwoWay}" Margin="3,0"/>
+                    <TextBlock Grid.Column="0" Grid.Row="2" FontSize="12"  FontWeight="Bold" Foreground="GreenYellow"
+                                       Text="{Binding FromClient.DisplayNameShort,Mode=TwoWay}" Margin="0"/>
+                    <TextBlock Grid.Column="1" Grid.Row="2" FontSize="12"  FontWeight="Bold" Foreground="GreenYellow"
+                                       Text="{Binding FromClient.Address.Mobile,Mode=TwoWay}" Margin="3,0"/>
+                    <TextBlock Grid.Column="0" Grid.Row="3"  FontSize="12" 
+                                       Text="{Binding ToClient.DisplayNameShort}" Foreground="MediumSpringGreen"/>
+                    <TextBlock Grid.Column="1" Grid.Row="3"  FontSize="12" 
+                                       Text="{Binding ToClient.Address.Mobile}" Foreground="MediumSpringGreen" Margin="3,0"/>
+                    <TextBlock Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" FontSize="12" 
+                                       Text="{Binding CountMessagesString}" Foreground="Yellow"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </DataTemplate>
+
+</ResourceDictionary>

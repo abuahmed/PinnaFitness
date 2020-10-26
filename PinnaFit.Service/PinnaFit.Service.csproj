@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BD52A0BE-F535-4D9D-A0A7-F12B8FD39861}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PinnaFit.Service</RootNamespace>
+    <AssemblyName>PinnaFit.Service</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\..\PDEX\PDEX.Service\bin\Debug\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\PDEX\PDEX.Service\bin\Debug\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\PDEX\PDEX.Service\bin\Debug\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServerCompact">
+      <HintPath>..\..\PDEX\PDEX.Service\bin\Debug\EntityFramework.SqlServerCompact.dll</HintPath>
+    </Reference>
+    <Reference Include="PinnaFit.Core">
+      <HintPath>..\PinnaFit.Repository\bin\Debug\PinnaFit.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="PinnaFit.DAL">
+      <HintPath>..\PinnaFit.Repository\bin\Debug\PinnaFit.DAL.dll</HintPath>
+    </Reference>
+    <Reference Include="PinnaFit.Repository">
+      <HintPath>..\PinnaFit.Repository\bin\Debug\PinnaFit.Repository.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AttachmentService.cs" />
+    <Compile Include="CategoryService.cs" />
+    <Compile Include="CompanyService.cs" />
+    <Compile Include="BusinessPartnerService.cs" />
+    <Compile Include="Interfaces\IBusinessPartnerService.cs" />
+    <Compile Include="Interfaces\IPaymentService.cs" />
+    <Compile Include="Interfaces\ITransactionService.cs" />
+    <Compile Include="InventoryService\PaymentService.cs" />
+    <Compile Include="InventoryService\TransactionService.cs" />
+    <Compile Include="PervisitSubscriptionService.cs" />
+    <Compile Include="Interfaces\IPervisitSubscriptionService.cs" />
+    <Compile Include="Interfaces\IAttachmentService.cs" />
+    <Compile Include="Interfaces\IInventoryService\IItemQuantityService.cs" />
+    <Compile Include="Interfaces\IInventoryService\IItemService.cs" />
+    <Compile Include="Interfaces\IInventoryService\IWarehouseService.cs" />
+    <Compile Include="InventoryService\ItemQuantityService.cs" />
+    <Compile Include="InventoryService\ItemService.cs" />
+    <Compile Include="InventoryService\WarehouseService.cs" />
+    <Compile Include="ServiceService.cs" />
+    <Compile Include="EquipmentService.cs" />
+    <Compile Include="Interfaces\IServiceService.cs" />
+    <Compile Include="Interfaces\IEquipmentService.cs" />
+    <Compile Include="Interfaces\ITimeTableService.cs" />
+    <Compile Include="Interfaces\ITrainerService.cs" />
+    <Compile Include="MemberAttendanceService.cs" />
+    <Compile Include="Interfaces\IMemberAttendanceService.cs" />
+    <Compile Include="MemberAssessmentService.cs" />
+    <Compile Include="Interfaces\IMemberAssessmentService.cs" />
+    <Compile Include="MemberSubscriptionService.cs" />
+    <Compile Include="FacilitySubscriptionService.cs" />
+    <Compile Include="FacilityService.cs" />
+    <Compile Include="Interfaces\IMemberSubscriptionService.cs" />
+    <Compile Include="Interfaces\IFacilitySubscriptionService.cs" />
+    <Compile Include="Interfaces\IFacilityService.cs" />
+    <Compile Include="Interfaces\ICategoryService.cs" />
+    <Compile Include="Interfaces\ICompanyService.cs" />
+    <Compile Include="Interfaces\IMemberService.cs" />
+    <Compile Include="Interfaces\IUserService.cs" />
+    <Compile Include="Interfaces\ISubscriptionService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MemberService.cs" />
+    <Compile Include="TimeTableService.cs" />
+    <Compile Include="TrainerService.cs" />
+    <Compile Include="UserService.cs" />
+    <Compile Include="SubscriptionService.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
